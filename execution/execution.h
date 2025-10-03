@@ -12,11 +12,6 @@
 # include <stdlib.h>
 # include <string.h>
 
-# define REDIR_IN 1
-# define REDIR_OUT 2
-# define REDIR_APPEND 3
-# define REDIR_HEREDOC 4
-
 extern int			g_exit_status;
 
 # define SUCCESS 0
