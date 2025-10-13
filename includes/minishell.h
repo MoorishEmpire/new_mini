@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 22:13:27 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:21:59 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void print_tokens(t_token *tokens);
 t_token *tokenizer(t_token **head, t_token **tail,char *input);
 t_cmd *store_cmds(t_token *token);
 t_token *expand_variables(t_token *tokens, char **envp);
+t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token);
 t_cmd *build_cmd_list(t_token *token);
 
 int is_it_singled(t_token *dollar);
@@ -184,6 +185,7 @@ int handle_token(t_token *xpnd, t_token **result, t_token *prev);
 int split_var_token(t_token *xpnd, t_token **result);
 char	*remove_quotes(char *value);
 int copy_token(t_token *xpnd, t_token **result);
+int	redir_counter(t_token *token, NodeType stop_type);
 
 
 //Builtins

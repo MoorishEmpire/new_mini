@@ -6,12 +6,11 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 19:20:24 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:19:34 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	arg_count(t_token *token, NodeType i)
 {
@@ -25,50 +24,18 @@ int	arg_count(t_token *token, NodeType i)
 	}
 	return (j);
 }
-int redir_counter(t_token *token, NodeType stop_type)
+int	redir_counter(t_token *token, NodeType stop_type)
 {
-    int count = 0;
-    while (token && token->type != stop_type)
-    {
-        if (is_token_redirect(token))
-            count++;
-        token = token->next;
-    }
-    return count;
-}
+	int	count;
 
-t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token)
-{
-	int		(i),(j);
-	i = 0;
-	j = 0;
-	cmd->quoted_file = malloc(sizeof(int) * (redir_counter(token,PIPE) + 1));
-	while (token && token->type != PIPE)
+	count = 0;
+	while (token && token->type != stop_type)
 	{
-		if (is_token_cmd(token))
-			cmd->argv[i++] = ft_strdup(token->value);
-		else if (is_token_redirect(token))
-		{
-			cmd->redirect[j] = ft_strdup(token->value);
-			token = token->next;
-			if (redir_check(token))
-			{
-				free(cmd->redirect[j]);
-				cmd->redirect[j] = NULL;
-				while (i > 0)
-    				free(cmd->argv[--i]);
-				return (NULL);
-			}
-			cmd->file[j] = ft_strdup(token->value);
-			cmd->quoted_file[j] = token->quote_flag;
-			j++;
-		}
+		if (is_token_redirect(token))
+			count++;
 		token = token->next;
 	}
-	cmd->argv[i] = NULL;
-	cmd->redirect[j] = NULL;
-	cmd->file[j] = NULL;
-	return (cmd);
+	return (count);
 }
 
 t_cmd	*store_cmds(t_token *token)
@@ -102,20 +69,20 @@ t_cmd	*store_cmds(t_token *token)
 
 t_cmd	*build_cmd_list(t_token *token)
 {
-	t_cmd *head;
-	t_cmd *tail;
-	t_cmd *cmd;
+	t_cmd	*head;
+	t_cmd	*tail;
+	t_cmd	*cmd;
 
 	head = NULL;
 	cmd = NULL;
 	tail = NULL;
 	if (pipe_err(&token))
-		return NULL;
+		return (NULL);
 	while (token)
 	{
 		cmd = store_cmds(token);
 		if (!cmd)
-        	return NULL;
+			return (NULL);
 		if (!head)
 			head = cmd;
 		else

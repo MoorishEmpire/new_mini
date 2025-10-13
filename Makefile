@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Parsing/error_checks/pipe_err_check src/Parsing/error_checks/redirection_err\
 			src/Parsing/error_checks/side_functions src/Parsing/wild_card/expand_wild\
-			src/Parsing/tokenizer src/Parsing/var_expansion/arg_replace\
+			src/Parsing/tokenizer src/Parsing/var_expansion/arg_replace src/Parsing/parser_sup\
 			src/Parsing/var_expansion/expanding src/Parsing/var_expansion/misc\
 			src/Parsing/var_expansion/support src/Parsing/var_expansion/variables\
 			src/Parsing/utils/helper_funcs/helps src/Parsing/quotes/quote_stripping\

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 20:14:55 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/20 23:38:30 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:25:30 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ int	match_pattern(char *pattern, char *str)
 			str_ptr = ++str;
 		}
 		else
-		{
 			return (0);
-		}
 	}
 	while (*pattern == '*')
 		pattern++;
