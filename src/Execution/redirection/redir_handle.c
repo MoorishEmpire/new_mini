@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:13:58 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 18:26:11 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:15:30 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int apply_redirections(t_cmd *cmd, char **env)
 {
     int i;
+    int last_heredoc_fd = -1;
 
     i = 0;
     while(cmd->redirect[i])
@@ -30,15 +31,26 @@ int apply_redirections(t_cmd *cmd, char **env)
                 return(-1);
         if(ft_strncmp(cmd->redirect[i],"<<",2) == 0)
         {
-            cmd->here_fd = handle_heredoc(cmd->file[i],env,cmd,i);
-            if(cmd->here_fd == -1)
+            // Close previous heredoc if exists (we only use the last one)
+            if(last_heredoc_fd != -1)
+                close(last_heredoc_fd);
+            
+            // But we MUST read ALL heredocs (bash behavior)
+            last_heredoc_fd = handle_heredoc(cmd->file[i],env,cmd,i);
+            if(last_heredoc_fd == -1)
                 return(-1);
-            if(dup2(cmd->here_fd, STDIN_FILENO) == -1)
-                return(perror("minishell: dup2"), -1);
-            close(cmd->here_fd);
         }
         i++;  
     }
+    
+    // Only apply the last heredoc to stdin
+    if(last_heredoc_fd != -1)
+    {
+        if(dup2(last_heredoc_fd, STDIN_FILENO) == -1)
+            return(perror("minishell: dup2"), -1);
+        close(last_heredoc_fd);
+    }
+    
     return (0);
 }
 
