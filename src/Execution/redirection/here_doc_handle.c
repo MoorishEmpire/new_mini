@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:58:03 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 20:27:45 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:34:54 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ char	*process_lines(char *line, char **env, t_cmd *cmd, int i)
 	return (content);
 }
 
-void	heredoc_child_loop(int fd, char *delimiter, char **env, t_cmd *cmd,
-		int i)
+void	heredoc_child_loop(int fd, t_heredoc *h)
 {
 	char	*line;
 	char	*content;
@@ -51,12 +50,12 @@ void	heredoc_child_loop(int fd, char *delimiter, char **env, t_cmd *cmd,
 		len = ft_strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
-		if (ft_strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, h->delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		content = process_lines(line, env, cmd, i);
+		content = process_lines(line, h->env, h->cmd, h->i);
 		ft_putendl_fd(content, fd);
 		free(line);
 		free(content);
@@ -67,9 +66,10 @@ void	heredoc_child_loop(int fd, char *delimiter, char **env, t_cmd *cmd,
 
 int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 {
-	char	*del;
-	int		fd[2];
-	pid_t	pid;
+	char		*del;
+	int			fd[2];
+	pid_t		pid;
+	t_heredoc	h;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -84,12 +84,11 @@ int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 	{
 		close(fd[0]);
 		del = strip_str(delimiter);
-		heredoc_child_loop(fd[1], del, env, cmd, i);
-		close(fd[1]);
-		free(del);
-		exit(0);
+		h.delimiter = del;
+		h.env = env;
+		h.cmd = cmd;
+		h.i = i;
+		(heredoc_child_loop(fd[1], &h), close(fd[1]), free(del), exit(0));
 	}
-	close(fd[1]);
-	waitpid(pid, NULL, 0);
-	return (fd[0]);
+	return (close(fd[1]), waitpid(pid, NULL, 0), fd[0]);
 }

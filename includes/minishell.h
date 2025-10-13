@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 20:09:17 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:30:48 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,14 @@ typedef struct s_cmd
 	int	here_fd;
 	int *quoted_file;
 }   t_cmd;
+
+typedef struct s_heredoc
+{
+    char    *delimiter;
+    char    **env;
+    t_cmd   *cmd;
+    int     i;
+}   t_heredoc;
 
 int is_space_unquoted(char *str, int index);
 
