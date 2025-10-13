@@ -19,7 +19,8 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Execution/builtins/ft_pwd src/Execution/builtins/ft_unset\
 			src/Execution/utils/ft_strcmp src/Execution/redirection/get_input\
 			src/Execution/redirection/get_next_line src/Execution/redirection/here_doc_handle\
-			src/Execution/redirection/redir_handle
+			src/Execution/redirection/redir_handle src/main_funcs/main_misc\
+			src/main_funcs/main_support src/main_funcs/main_test src/main_funcs/main_exec
 
 CFILES = $(files:%=%.c)
 OBJS = $(files:%=%.o)

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 20:30:48 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:13:27 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,17 @@ typedef struct s_heredoc
     int     i;
 }   t_heredoc;
 
+typedef struct s_process
+{
+	t_token	*head;
+	t_token	*tail;
+	t_token	*output;
+	t_token	*expand;
+	t_token	*wild;
+	t_token	*strip;
+	t_cmd	*cmd;
+}	t_process;
+
 int is_space_unquoted(char *str, int index);
 
 void free_split(char **strs);
@@ -190,5 +201,21 @@ int handle_in(char *file);
 char	*get_next_line(int fd);
 int handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i);
 int apply_redirections(t_cmd *cmd, char **env);
+
+
+// the main
+char *get_input(void);
+void free_token_lists(t_token **output, t_token **expand, t_token **wild, t_token **strip);
+t_cmd *process_line(char *input, char **env);
+int check_unclosed_quotes(const char *line);
+char *read_complete_line(void);
+void execute_cmd(t_cmd *cmd, t_env **env_list);
+void restore_stdio(int saved_stdin, int saved_stdout);
+void execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array);
+int	is_builtin(char *cmd);
+
+//main tester (to be removed)
+void print_parse(t_cmd *cmd);
+void print_tokens(t_token *tokens);
 
 #endif
