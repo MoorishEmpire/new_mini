@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/13 18:27:33 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
@@ -27,6 +39,9 @@ extern int g_exit_status;
 # define CMD_NOT_FOUND 127
 # define PERMISSION_DENIED 126
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 typedef enum {
     COMMAND,// done.          0
     CMD_ARG,//done            1
@@ -74,6 +89,8 @@ typedef struct s_cmd
 	char **redirect;
 	char **file;
 	struct s_cmd *next;
+	int	here_fd;
+	int *quoted_file;
 }   t_cmd;
 
 int is_space_unquoted(char *str, int index);
@@ -156,5 +173,14 @@ void        execute_externals(t_cmd *cmd, t_env **env);
 char        *get_cmd_path(char *cmd);
 char        **list_to_env(t_env *list);
 
+
+
+//redirections for execution
+int handle_out(char *file, int tr_ap);
+int has_quotes(char *str);
+int handle_in(char *file);
+char	*get_next_line(int fd);
+int handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i);
+int apply_redirections(t_cmd *cmd, char **env);
 
 #endif

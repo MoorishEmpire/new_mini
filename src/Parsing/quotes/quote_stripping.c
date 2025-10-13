@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:05:52 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/17 21:48:59 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:54:54 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,39 @@ char	*strip_str(char *str)
 	return (res);
 }
 
-t_token	*stripper(t_token *xpnd)
+t_token *stripper(t_token *xpnd)
 {
-	t_token	*result;
-	t_token	*new;
-	char	*res;
+    t_token *result = NULL;
+    t_token *new;
+    char *res;
 
-	result = NULL;
-	while (xpnd)
-	{
-		if (xpnd->type != QUOTED_VAR)
-			res = strip_str(xpnd->value);
-		else
-			res = ft_strdup(xpnd->value);
-		if (!res)
-			clear_tokens(&result);
-		new = create_token(xpnd->type, res,xpnd->var_nam);
-		if (!new)
-		{
-			free(res);
-			clear_tokens(&result);
-		}
-		append_list(&result, new);
-		free(res);
-		xpnd = xpnd->next;
-	}
-	return (result);
+    while (xpnd)
+    {
+        if (is_token_redirect(xpnd) && xpnd->next)
+        {
+            if (has_quotes(xpnd->next->value))
+                xpnd->next->quote_flag = 1;
+            else
+                xpnd->next->quote_flag = 0;
+        }
+        if (xpnd->type != QUOTED_VAR)
+            res = strip_str(xpnd->value);
+        else
+            res = ft_strdup(xpnd->value);
+
+        if (!res)
+            clear_tokens(&result);
+
+        new = create_token(xpnd->type, res, xpnd->var_nam);
+        new->quote_flag = xpnd->quote_flag;
+        if (!new)
+        {
+            free(res);
+            clear_tokens(&result);
+        }
+        append_list(&result, new);
+        free(res);
+        xpnd = xpnd->next;
+    }
+    return result;
 }

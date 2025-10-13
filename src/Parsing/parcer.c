@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/07/04 18:54:06 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:54:30 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token)
 	int		(i),(j);
 	i = 0;
 	j = 0;
+	cmd->quoted_file = malloc(sizeof(int) * (redir_counter(token,HERE_DOC) + 1));
 	while (token && token->type != PIPE)
 	{
 		if (is_token_cmd(token))
@@ -53,13 +54,14 @@ t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token)
 			token = token->next;
 			if (redir_check(token))
 			{
-				free(cmd->redirect[j]);   // ✅ free the strdup’d redirect
+				free(cmd->redirect[j]);
 				cmd->redirect[j] = NULL;
 				while (i > 0)
     				free(cmd->argv[--i]);
 				return (NULL);
 			}
 			cmd->file[j] = ft_strdup(token->value);
+			cmd->quoted_file[j] = token->quote_flag;
 			j++;
 		}
 		token = token->next;

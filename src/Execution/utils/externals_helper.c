@@ -43,7 +43,7 @@ static char    *search_for_path(char *cmd, t_env *env)
     return (NULL);
 }
 
-char    *get_cmd_path(char *cmd)
+char    *get_cmd_path(char *cmd, t_env *env)
 {
     char    *path;
 

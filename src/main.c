@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/20 19:40:02 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:11:42 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,63 @@ static void execute_cmd(t_cmd *cmd, t_env **env_list)
         execute_builtin(cmd, env_list);
         return;
     }
-    //execute_externals(cmd, env_list);
-
 }
 
+static void restore_stdio(int saved_stdin, int saved_stdout)
+{
+    dup2(saved_stdin, STDIN_FILENO);
+    dup2(saved_stdout, STDOUT_FILENO);
+    close(saved_stdin);
+    close(saved_stdout);
+}
 
+void test_execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
+{
+    int saved_stdin = dup(STDIN_FILENO);
+    int saved_stdout = dup(STDOUT_FILENO);
 
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return;
 
-void print_tokens(t_token *tokens)//just for testing
+    if (is_builtin(cmd->argv[0]))
+    {
+        if (apply_redirections(cmd, env_array) == -1)
+        {
+            perror("redirection");
+            return;
+        }
+        execute_cmd(cmd, env_list);
+        restore_stdio(saved_stdin, saved_stdout);
+    }
+    else
+    {
+        pid_t pid = fork();
+        int status;
+
+        if (pid == 0)
+        {
+            if (apply_redirections(cmd, env_array) == -1)
+            {
+                perror("redirection");
+                exit(1);
+            }
+            execvp(cmd->argv[0], cmd->argv);
+            perror("execvp failed");
+            exit(1);
+        }
+        else if (pid > 0)
+        {
+            waitpid(pid, &status, 0);
+            g_exit_status = WEXITSTATUS(status);
+        }
+        else
+        {
+            perror("fork failed");
+        }
+    }
+}
+
+void print_tokens(t_token *tokens)//just for testin
 {
     while (tokens) {
         printf("\n\nToken is: %s\n"
@@ -60,7 +109,7 @@ void print_tokens(t_token *tokens)//just for testing
         tokens = tokens->next;
     }
 }
-void print_parse(t_cmd *cmd)//just for testing 
+void print_parse(t_cmd *cmd)
 {
     int i;
 
@@ -244,7 +293,7 @@ int main(int ac, char **av, char **env)
             break;
 
         cmd = process_line(input, env_array);
-        execute_cmd(cmd, &env_list);
+        test_execute_single_cmd(cmd, &env_list,env);
         clear_cmd(&cmd);
         free(input);
 	free_split(env_array);
