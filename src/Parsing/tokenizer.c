@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 22:17:01 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:43:45 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,53 @@ void	is_it_pipe(t_token **head, t_token **tail, int *i, char *input)
 	(*i)++;
 }
 
-void	get_full_quote(char *input, int *i, int *in_q, char *type, int *len)
+void	is_it_op(t_token **head, t_token **tail, int *i, char *input)
 {
-	while (input[*i])
+	t_token	*new;
+
+	new = NULL;
+	if (input[*i] == '<' && input[*i + 1] == '<')
 	{
-		if (!*in_q && is_token_breaker(input[*i]))
+		new = create_token(HERE_DOC, "<<", NULL);
+		*i += 1;
+	}
+	else if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		new = create_token(APPEND, ">>", NULL);
+		*i += 1;
+	}
+	else if (input[*i] == '>')
+		new = create_token(REDIR_OUT, ">", NULL);
+	else if (input[*i] == '<')
+		new = create_token(REDIR_IN, "<", NULL);
+	if (!new)
+		exit(1);
+	if (!*head)
+		*head = new;
+	else
+		(*tail)->next = new;
+	*tail = new;
+	(*i)++;
+}
+
+void	get_full_quote(char *input, t_quote_ctx *ctx)
+{
+	while (input[ctx->i])
+	{
+		if (!ctx->in_q && is_token_breaker(input[ctx->i]))
 			break ;
-		if ((input[*i] == '"' || input[*i] == '\''))
+		if (input[ctx->i] == '"' || input[ctx->i] == '\'')
 		{
-			if (!*in_q)
+			if (!ctx->in_q)
 			{
-				*in_q = 1;
-				*type = input[*i];
+				ctx->in_q = 1;
+				ctx->type = input[ctx->i];
 			}
-			else if (*type == input[*i])
-				*in_q = 0;
+			else if (ctx->type == input[ctx->i])
+				ctx->in_q = 0;
 		}
-		(*i)++;
-		(*len)++;
+		ctx->i++;
+		ctx->len++;
 	}
 }
 

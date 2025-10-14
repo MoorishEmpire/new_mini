@@ -12,7 +12,7 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Parsing/var_expansion/expanding src/Parsing/var_expansion/misc\
 			src/Parsing/var_expansion/support src/Parsing/var_expansion/variables\
 			src/Parsing/utils/helper_funcs/helps src/Parsing/quotes/quote_stripping\
-			src/Parsing/wild_card/file_read src/Parsing/var_expansion/norm\
+			src/Parsing/wild_card/file_read src/Parsing/var_expansion/norm src/Parsing/var_expansion/xpnd_handle\
 			src/Execution/builtins/builtins src/Execution/builtins/ft_cd\
 			src/Execution/builtins/ft_echo src/Execution/builtins/ft_env\
 			src/Execution/builtins/ft_export src/Execution/builtins/ft_exit\
@@ -20,7 +20,8 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Execution/utils/ft_strcmp src/Execution/redirection/get_input\
 			src/Execution/redirection/get_next_line src/Execution/redirection/here_doc_handle\
 			src/Execution/redirection/redir_handle src/main_funcs/main_misc\
-			src/main_funcs/main_support src/main_funcs/main_test src/main_funcs/main_exec
+			src/main_funcs/main_support src/main_funcs/main_test src/main_funcs/main_exec\
+			src/Parsing/wild_card/wild_help src/Parsing/wild_card/wild_misc src/Parsing/var_expansion/minette
 
 CFILES = $(files:%=%.c)
 OBJS = $(files:%=%.o)

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:05:52 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 18:54:54 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:34:47 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,39 +41,57 @@ char	*strip_str(char *str)
 	return (res);
 }
 
-t_token *stripper(t_token *xpnd)
+static void	handle_redirect_quotes(t_token *tok)
 {
-    t_token *result = NULL;
-    t_token *new;
-    char *res;
+	if (is_token_redirect(tok) && tok->next)
+	{
+		if (has_quotes(tok->next->value))
+			tok->next->quote_flag = 1;
+		else
+			tok->next->quote_flag = 0;
+	}
+}
 
-    while (xpnd)
-    {
-        if (is_token_redirect(xpnd) && xpnd->next)
-        {
-            if (has_quotes(xpnd->next->value))
-                xpnd->next->quote_flag = 1;
-            else
-                xpnd->next->quote_flag = 0;
-        }
-        if (xpnd->type != QUOTED_VAR)
-            res = strip_str(xpnd->value);
-        else
-            res = ft_strdup(xpnd->value);
+static char	*get_stripped_value(t_token *tok)
+{
+	if (tok->type != QUOTED_VAR)
+		return (strip_str(tok->value));
+	return (ft_strdup(tok->value));
+}
 
-        if (!res)
-            clear_tokens(&result);
+static t_token	*create_and_append_token(t_token **result, t_token *xpnd,
+		char *res)
+{
+	t_token	*new;
 
-        new = create_token(xpnd->type, res, xpnd->var_nam);
-        new->quote_flag = xpnd->quote_flag;
-        if (!new)
-        {
-            free(res);
-            clear_tokens(&result);
-        }
-        append_list(&result, new);
-        free(res);
-        xpnd = xpnd->next;
-    }
-    return result;
+	new = create_token(xpnd->type, res, xpnd->var_nam);
+	if (!new)
+	{
+		free(res);
+		clear_tokens(result);
+		return (NULL);
+	}
+	new->quote_flag = xpnd->quote_flag;
+	append_list(result, new);
+	return (new);
+}
+
+t_token	*stripper(t_token *xpnd)
+{
+	t_token	*result;
+	char	*res;
+
+	result = NULL;
+	while (xpnd)
+	{
+		handle_redirect_quotes(xpnd);
+		res = get_stripped_value(xpnd);
+		if (!res)
+			clear_tokens(&result);
+		if (!create_and_append_token(&result, xpnd, res))
+			return (NULL);
+		free(res);
+		xpnd = xpnd->next;
+	}
+	return (result);
 }

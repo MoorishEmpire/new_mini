@@ -6,58 +6,58 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/20 18:50:29 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:31:02 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-	#include "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-char * unquoted(t_ctx *ctx, char *value)
+char	*unquoted(t_ctx *ctx, char *value)
 {
-	char *result;
+	char	*result;
 
 	result = malloc(ctx->len + 1);
 	if (!result)
-        return NULL;
+		return (NULL);
 	while (ctx->i < ctx->len)
-    {
-        if (value[ctx->i] == '\'' && !ctx->in_double)
-        {
-            ctx->in_single = !ctx->in_single;
-            ctx->i++;
-        }
-        else if (value[ctx->i] == '"' && !ctx->in_single)
-        {
-            ctx->in_double = !ctx->in_double;
-            ctx->i++;
-        }
-        else
-            result[ctx->j++] = value[ctx->i++];
-    }
+	{
+		if (value[ctx->i] == '\'' && !ctx->in_double)
+		{
+			ctx->in_single = !ctx->in_single;
+			ctx->i++;
+		}
+		else if (value[ctx->i] == '"' && !ctx->in_single)
+		{
+			ctx->in_double = !ctx->in_double;
+			ctx->i++;
+		}
+		else
+			result[ctx->j++] = value[ctx->i++];
+	}
 	result[ctx->j] = '\0';
-	return(result);
+	return (result);
 }
 
-char *remove_quotes(char *value)
+char	*remove_quotes(char *value)
 {
-	char *result;
-	t_ctx ctx;
+	char	*result;
+	t_ctx	ctx;
 
 	ctx.i = 0;
 	ctx.j = 0;
 	ctx.in_single = 0;
 	ctx.in_double = 0;
-    if (!value)
-        return NULL;
-    ctx.len = ft_strlen(value);
-	result = unquoted(&ctx,value);
-    return (result);
+	if (!value)
+		return (NULL);
+	ctx.len = ft_strlen(value);
+	result = unquoted(&ctx, value);
+	return (result);
 }
 
 char	*strip_token(char *value)
 {
-	int		i;
-	int		quote_pos;
+	int	i;
+	int	quote_pos;
 
 	quote_pos = -1;
 	i = 0;
@@ -66,7 +66,7 @@ char	*strip_token(char *value)
 		if (value[i] == '"')
 		{
 			quote_pos = i;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -75,32 +75,34 @@ char	*strip_token(char *value)
 	return (remove_quotes(value));
 }
 
-int double_dollars(char *result, int j)
+int	double_dollars(char *result, int j)
 {
-    char *res;
-    int l;
+	char	*res;
+	int		l;
 
-    res = "1337";
-    l = 0;
-    while (res[l])
-        result[j++] = res[l++];
-    return (j);
+	res = "1337";
+	l = 0;
+	while (res[l])
+		result[j++] = res[l++];
+	return (j);
 }
 
-char *get_env_value(char *name, char **env)
+char	*get_env_value(char *name, char **env)
 {
-	int i = 0;
-	int len = ft_strlen(name);
+	int		i;
+	int		len;
+	char	*value_start;
 
+	i = 0;
+	len = ft_strlen(name);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
 		{
-			char *value_start = env[i] + len + 1;
-			return ft_strdup(value_start);
+			value_start = env[i] + len + 1;
+			return (ft_strdup(value_start));
 		}
 		i++;
 	}
 	return (NULL);
 }
-

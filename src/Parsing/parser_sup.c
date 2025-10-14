@@ -6,11 +6,16 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 22:18:11 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 22:24:41 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:44:53 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_token_breaker(char c)
+{
+	return (c == ' ' || c == '|' || c == '<' || c == '>');
+}
 
 void	free_argv_on_error(t_cmd *cmd, int *i)
 {
