@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 22:18:11 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 20:44:53 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:19:20 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	fill_cmd_parts(t_cmd *cmd, t_token *token, int *i, int *j)
 	while (token && token->type != PIPE)
 	{
 		if (is_token_cmd(token))
-			cmd->argv[(*i)++] = ft_strdup(token->value);
+		{
+			if (token->value && (token->value[0] != '\0' || token->type != VAR))
+				cmd->argv[(*i)++] = ft_strdup(token->value);
+		}
 		else if (is_token_redirect(token))
 		{
 			if (!handle_redirect(cmd, &token, j, i))

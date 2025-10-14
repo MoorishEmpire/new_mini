@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 19:15:53 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:22:32 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,25 @@ static int	handle_question_mark(char *str, t_ctx *ctx, char *result)
 
 int	handle_variable_or_dollar(char *str, t_ctx *ctx, char *result, char **env)
 {
-	if (str[ctx->i] && (ft_isalnum(str[ctx->i]) || str[ctx->i] == '_'))
-		ctx->j = replace_single_variable(str, ctx, result, env);
-	else
+	char	*var_name;
+	char	*var_value;
+	int		start;
+
+	start = ctx->i;
+	while (str[ctx->i] && (ft_isalnum(str[ctx->i]) || str[ctx->i] == '_'))
+		ctx->i++;
+	if (ctx->i == start)
+	{
 		result[ctx->j++] = '$';
+		return (ctx->j);
+	}
+	var_name = ft_substr(str, start, ctx->i - start);
+	var_value = get_env_value(var_name, env);
+	free(var_name);
+	if (!var_value)
+		return (ctx->j);
+	while (*var_value)
+		result[ctx->j++] = *var_value++;
 	return (ctx->j);
 }
 

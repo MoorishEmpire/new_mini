@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:33:38 by moel-idr          #+#    #+#             */
-/*   Updated: 2024/11/02 15:10:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:19:06 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_substr(char const *str, unsigned int start, size_t len)
 	if (!str)
 		return (NULL);
 	if (start > (unsigned int)ft_strlen(str))
-		return (ft_strdup(""));
+		return (NULL);
 	if (len > (unsigned int)ft_strlen(str) - start)
 		len = ft_strlen(str) - start;
 	i = 0;

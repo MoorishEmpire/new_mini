@@ -2,7 +2,7 @@ NAME = minishell
 LIBNAME = libmini.a
 CC = gcc
 LDFLAGS = -lreadline -lncurses
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror 
 
 # Main files
 files = 	src/Parsing/token src/main src/Parsing/parcer\

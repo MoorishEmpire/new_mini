@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:32:27 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 20:33:41 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:22:01 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int	replace_single_variable(char *str, t_ctx *ctx, char *result, char **env)
 {
+	int		start;
+	int		k;
 	char	*var;
 	char	*val;
 
-	int (start), (k);
 	start = ctx->i;
 	while (str[ctx->i] && (ft_isalnum(str[ctx->i]) || str[ctx->i] == '_'))
-		(ctx->i)++;
+		ctx->i++;
 	var = ft_substr(str, start, ctx->i - start);
 	val = get_env_value(var, env);
 	k = 0;
-	while (val && val[k])
-		result[ctx->j++] = val[k++];
+	if (val)
+	{
+		while (val[k])
+			result[ctx->j++] = val[k++];
+	}
 	free(var);
 	free(val);
 	return (ctx->j);

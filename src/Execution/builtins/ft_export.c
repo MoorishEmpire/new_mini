@@ -80,6 +80,8 @@ int ft_export(char **args, t_env **env)
     status = 0;
     while (args[i])
     {
+		if(args[i][0] == '\0')
+			printf("bash: export: `': not a valid identifier\n");
         if (process_export_arg(args[i], env))
             status = 1;
         i++;
