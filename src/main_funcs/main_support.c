@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:40 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 22:01:32 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/15 01:49:55 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	clear_cmd(t_cmd **head)
 		free_str_array(tmp->argv);
 		free_str_array(tmp->redirect);
 		free_str_array(tmp->file);
+		free(tmp->quoted_file); 
 		free(tmp);
 	}
 }

@@ -25,9 +25,13 @@ static void print_export(t_env *env)
 int	is_valid_key(char *key)
 {
     int i;
-    i = 0;
-    if (key[i] && !ft_isalpha(key[i]) && key[i] != '_')
+    
+    if (!key || !key[0])
         return (0);
+    i = 0;
+    if (!ft_isalpha(key[i]) && key[i] != '_')
+        return (0);
+    
     i++;
     while (key[i] && key[i] != '=')
     {

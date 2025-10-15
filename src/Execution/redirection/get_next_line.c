@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:47:23 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 00:57:27 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/15 01:22:40 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*read_line(char *outcome, int fd)
 		if (num_of_bytes < 0)
 		{
 			free(outcome);
-			free(buf);
 			outcome = NULL;
 		}
 		buf[num_of_bytes] = 0;

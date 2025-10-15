@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 20:36:32 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/15 01:46:55 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_cmd	*store_cmds(t_token *token)
 		free(cmd->file);
 		free(cmd->argv);
 		free(cmd->redirect);
+		free(cmd->quoted_file);
 		free(cmd);
 		return (NULL);
 	}
