@@ -14,23 +14,23 @@ static char	*get_env(t_env *env, char *var)
 	return (NULL);
 }
 
-static char	*cd_home_error(char *oldpwd)
+static char	*cd_home_error(char *oldpwd, t_cmd *cmd)
 {
 	free(oldpwd);
 	ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	g_exit_status = 1;
+	cmd->exit_status = 1;
 	return (NULL);
 }
 
-static char	*cd_oldpwd_error(char *oldpwd)
+static char	*cd_oldpwd_error(char *oldpwd, t_cmd *cmd)
 {
 	free(oldpwd);
 	ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-	g_exit_status = 1;
+	cmd->exit_status = 1;
 	return (NULL);
 }
 
-static char	*get_cd_path(char **args, t_env **env, char *oldpwd)
+static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 {
 	char	*path;
 
@@ -38,20 +38,20 @@ static char	*get_cd_path(char **args, t_env **env, char *oldpwd)
 	{
 		path = get_env(*env, "HOME");
 		if (!path)
-			return (cd_home_error(oldpwd));
+			return (cd_home_error(oldpwd, cmd));
 	}
 	else if (!ft_strcmp(args[1], "-"))
 	{
 		path = get_env(*env, "OLDPWD");
 		if (!path)
-			return (cd_oldpwd_error(oldpwd));
+			return (cd_oldpwd_error(oldpwd, cmd));
 	}
 	else
 		path = args[1];
 	return (path);
 }
 
-int			ft_cd(char **args, t_env **env)
+int			ft_cd(char **args, t_env **env, t_cmd *cmd)
 {
 	char	*path;
 	char	*oldpwd;
@@ -62,7 +62,7 @@ int			ft_cd(char **args, t_env **env)
 	is_path_allocated = 0;
 	oldpwd = getcwd(NULL, 0);
 	print_newpwd = (args[1] && !ft_strcmp(args[1], "-"));
-	path = get_cd_path(args, env, oldpwd);
+	path = get_cd_path(args, env, oldpwd, cmd);
 	if (!path)
 		return (1);
 
@@ -73,11 +73,11 @@ int			ft_cd(char **args, t_env **env)
 	{
 		free(oldpwd);
 		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
+		ft_putstr_fd(path, 2);	cmd = NULL;
 		ft_putstr_fd(": No such file or directory\n", 2);
 		if (is_path_allocated)
 			free(path);
-		g_exit_status = 1;
+		cmd->exit_status = 1;
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
@@ -89,6 +89,6 @@ int			ft_cd(char **args, t_env **env)
 	free(newpwd);
 	if (is_path_allocated)
 		free(path);
-	g_exit_status = 0;
+	cmd->exit_status = 0;
 	return (0);
 }

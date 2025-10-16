@@ -70,7 +70,7 @@ int process_export_arg(char *arg, t_env **env)
     return (0);
 }
 
-int ft_export(char **args, t_env **env)
+int ft_export(char **args, t_env **env, t_cmd *cmd)
 {
     int i;
     int status;
@@ -90,6 +90,6 @@ int ft_export(char **args, t_env **env)
             status = 1;
         i++;
     }
-    g_exit_status = status;
+    cmd->exit_status = status;
     return (status);
 }

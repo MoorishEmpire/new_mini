@@ -21,13 +21,13 @@ int apply_redirections(t_cmd *cmd, char **env)
     while(cmd->redirect[i])
     {
         if(ft_strncmp(cmd->redirect[i],">",2) == 0)
-            if(handle_out(cmd->file[i],0) == -1)
+            if(handle_out(cmd->file[i],0, cmd) == -1)
                 return(-1);
         if(ft_strncmp(cmd->redirect[i],">>",2) == 0)
-            if(handle_out(cmd->file[i],1) == -1)
+            if(handle_out(cmd->file[i],1, cmd) == -1)
                 return(-1);
         if(ft_strncmp(cmd->redirect[i],"<",2) == 0)
-            if(handle_in(cmd->file[i]) == -1)
+            if(handle_in(cmd->file[i], cmd) == -1)
                 return(-1);
         if(ft_strncmp(cmd->redirect[i],"<<",2) == 0)
         {

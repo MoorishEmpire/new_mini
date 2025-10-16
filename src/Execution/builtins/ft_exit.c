@@ -21,7 +21,7 @@ static int	is_nbr(const char *str)
     return (1);
 }
 
-static int	handel_args(char **args)
+static int	handel_args(char **args, t_cmd *cmd)
 {
     long long   val;
     int         i;
@@ -36,7 +36,7 @@ static int	handel_args(char **args)
     else if (args[2])
     {
         ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-        g_exit_status = 1;
+        cmd->exit_status = 1;
         return (-1);
     }
 
@@ -52,7 +52,7 @@ static int	handel_args(char **args)
     return (val % 256);
 }
 
-void	ft_exit(char **args)
+void	ft_exit(char **args, t_cmd *cmd)
 {
     int exit_code;
 
@@ -61,14 +61,13 @@ void	ft_exit(char **args)
 
     if (args[1])
     {
-        exit_code = handel_args(args);
+        exit_code = handel_args(args, cmd);
         if (exit_code == -1)
             return ;
 
     }
     else
-        exit_code = g_exit_status;
-
+        exit_code = cmd->exit_status;
     clear_history();
     exit(exit_code);
 }

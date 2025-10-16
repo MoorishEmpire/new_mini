@@ -15,46 +15,54 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-t_env		*g_env = NULL;
-int			g_exit_status = 0;
+volatile sig_atomic_t	g_signal_received = 0;
 
 static void	exec_builtin_cmd(t_cmd *cmd, t_env **env_list, char **env_array,
 		int saved_io[2])
 {
+	signal_init_exec();
 	if (apply_redirections(cmd, env_array) == -1)
 	{
+		signal_init_interactive();
 		perror("redirection");
 		return ;
 	}
 	execute_cmd(cmd, env_list);
 	restore_stdio(saved_io[0], saved_io[1]);
+	signal_init_interactive();
 }
 
+/*
 static void	exec_external_cmd(t_cmd *cmd, char **env_array)
 {
 	pid_t	pid;
 	int		status;
+	char	*path;
 
+	signal_init_exec();
 	pid = fork();
 	if (pid == 0)
 	{
+		signal_init_child();
 		if (apply_redirections(cmd, env_array) == -1)
 		{
 			perror("redirection");
 			exit(1);
 		}
-		execvp(cmd->argv[0], cmd->argv);
+		execvp(path, cmd->argv);
 		perror("execvp failed");
 		exit(1);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		g_exit_status = WEXITSTATUS(status);
+		cmd->exit_status = WEXITSTATUS(status);
 	}
 	else
 		perror("fork failed");
+	signal_init_interactive();
 }
+*/
 
 void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 {
@@ -67,31 +75,44 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 	if (is_builtin(cmd->argv[0]))
 		exec_builtin_cmd(cmd, env_list, env_array, saved_io);
 	else
-		exec_external_cmd(cmd, env_array);
+		execute_externals(cmd, env_list);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
 	t_cmd	*cmd;
+	char	*input;
 	t_env	*env_list;
 	char	**env_array;
 
 	(void)ac;
 	(void)av;
 	env_list = env_to_list(env);
+	signal_init_interactive();
 	while (1)
 	{
 		env_array = list_to_env(env_list);
 		input = read_complete_line();
 		if (!input)
+		{
+			free_split(env_array);
 			break ;
+		}
 		cmd = process_line(input, env_array);
+		if (!cmd)
+		{
+			free(input);
+			free_split(env_array);
+			continue ;
+		}
+		cmd->exit_status = 0;
 		execute_single_cmd(cmd, &env_list, env);
+		signal_check(cmd);
 		clear_cmd(&cmd);
 		free(input);
 		free_split(env_array);
 	}
 	clear_history();
+	free_env_list(env_list);
 	return (0);
 }

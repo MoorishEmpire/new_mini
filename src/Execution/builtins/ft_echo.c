@@ -21,7 +21,7 @@ static int	handle_n_flag(char **args, int *nl)
 	return (i);
 }
 
-void		ft_echo(char **args)
+void		ft_echo(char **args, t_cmd *cmd)
 {
 	int	i;
 	int	nl;
@@ -36,5 +36,5 @@ void		ft_echo(char **args)
 	}
 	if (nl)
 		printf("\n");
-	g_exit_status = 0;
+	cmd->exit_status = 0;
 }

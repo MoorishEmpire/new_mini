@@ -27,7 +27,7 @@ static void delete_env_var(t_env **env, char *var)
 
 }
 
-int ft_unset(char **args, t_env **env)
+int ft_unset(char **args, t_env **env, t_cmd *cmd)
 {
     int i;
     int status;
@@ -54,6 +54,6 @@ int ft_unset(char **args, t_env **env)
         }
         i++;
     }
-    g_exit_status = status;
+    cmd->exit_status = status;
     return (status);
 }

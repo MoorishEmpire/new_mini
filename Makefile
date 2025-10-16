@@ -21,7 +21,9 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Execution/redirection/get_next_line src/Execution/redirection/here_doc_handle\
 			src/Execution/redirection/redir_handle src/main_funcs/main_misc\
 			src/main_funcs/main_support src/main_funcs/main_test src/main_funcs/main_exec\
-			src/Parsing/wild_card/wild_help src/Parsing/wild_card/wild_misc src/Parsing/var_expansion/minette
+			src/Parsing/wild_card/wild_help src/Parsing/wild_card/wild_misc src/Parsing/var_expansion/minette\
+			src/Execution/signals/signals src/Execution/signals/signal_helper src/Execution/signals/signal_helper1\
+			src/Execution/utils/externals src/Execution/utils/externals_helper\
 
 CFILES = $(files:%=%.c)
 OBJS = $(files:%=%.o)

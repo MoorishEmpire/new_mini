@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int handle_out(char *file, int tr_ap)
+int handle_out(char *file, int tr_ap, t_cmd *cmd)
 {
 	int fd;
 
@@ -23,13 +23,13 @@ int handle_out(char *file, int tr_ap)
 	if(fd == -1)
 	{
         perror(file);
-        g_exit_status = 1;  // ra 5asso ykon struct! global rah dyal signals!
+		cmd->exit_status = 1;
         return (-1); 
 	}
 	if(dup2(fd,STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
-        g_exit_status = 1;  // ra 5asso ykon struct! global rah dyal signals!
+		cmd->exit_status = 1;
         close(fd);
         return (-1);
 	}
@@ -37,7 +37,7 @@ int handle_out(char *file, int tr_ap)
 	return(0);
 }
 
-int handle_in(char *file)
+int handle_in(char *file, t_cmd *cmd)
 {
 	int fd;
 
@@ -45,13 +45,13 @@ int handle_in(char *file)
 	if(fd == -1)
 	{
         perror(file);
-        g_exit_status = 1;  // ra 5asso ykon struct! global rah dyal signals!
+		cmd->exit_status = 1;
         return (-1); 
 	}
 	if(dup2(fd,STDIN_FILENO) == -1)
 	{
 		perror("dup2");
-        g_exit_status = 1;  // ra 5asso ykon struct! global rah dyal signals!
+		cmd->exit_status = 1;
         close(fd);
         return (-1);
 	}

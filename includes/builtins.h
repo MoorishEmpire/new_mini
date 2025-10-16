@@ -15,19 +15,27 @@ typedef struct s_env
 	char			*var;
 	char			*value;
 	struct s_env	*next;
-}					t_env;
+}	t_env;
 
-extern int			g_exit_status;
+typedef struct s_cmd
+{
+	char			**argv;
+	char			**redirect;
+	char			**file;
+	struct s_cmd	*next;
+	int				here_fd;
+	int				*quoted_file;
+	int				exit_status;
+}					t_cmd;
 
 //builtins funtions
-void		ft_echo(char **args);
-
+void		ft_echo(char **args, t_cmd *cmd);
 int			ft_pwd(void);
 int			ft_env(t_env *env);
-int			ft_export(char **args, t_env **env);
-int			ft_unset(char **args, t_env **env);
-void			ft_exit(char **args);
-int			ft_cd(char **args, t_env **env);
+int			ft_export(char **args, t_env **env, t_cmd *cmd);
+int			ft_unset(char **args, t_env **env, t_cmd *cmd);
+void		ft_exit(char **args, t_cmd *cmd);
+int			ft_cd(char **args, t_env **env, t_cmd *cmd);
 
 // Environment functions
 //char		*get_env(t_env *env, char *var);

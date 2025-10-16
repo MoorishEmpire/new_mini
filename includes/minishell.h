@@ -32,12 +32,17 @@
 # define SKYBLUE "\033[0;36m"
 # define RESET "\033[0m"
 
-extern int			g_exit_status;
+extern volatile sig_atomic_t	g_signal_received;
 
 # define SUCCESS 0
 # define FAILURE 1
 # define CMD_NOT_FOUND 127
 # define PERMISSION_DENIED 126
+
+# define SIGNAL_INTERACTIVE 0
+# define SIGNAL_EXEC 1
+# define SIGNAL_HEREDOC 2
+# define SIGNAL_CHILD 3
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -85,15 +90,7 @@ typedef struct s_ctx
 	t_exit			exit;
 }					t_ctx;
 
-typedef struct s_cmd
-{
-	char			**argv;
-	char			**redirect;
-	char			**file;
-	struct s_cmd	*next;
-	int				here_fd;
-	int				*quoted_file;
-}					t_cmd;
+//t_cmd is defined in builtins.h
 
 typedef struct s_heredoc
 {
@@ -233,13 +230,13 @@ char	**expand_wildcard(char *token, NodeType type);
 // Builtins
 int					execute_builtin(t_cmd *cmd, t_env **env);
 void				execute_externals(t_cmd *cmd, t_env **env);
-char				*get_cmd_path(char *cmd);
+char				*get_cmd_path(char *cmd, t_env *env);
 char				**list_to_env(t_env *list);
 
 // redirections for execution
-int					handle_out(char *file, int tr_ap);
+int					handle_out(char *file, int tr_ap, t_cmd *cmd);
 int					has_quotes(char *str);
-int					handle_in(char *file);
+int					handle_in(char *file, t_cmd *cmd);
 char				*get_next_line(int fd);
 int					handle_heredoc(char *delimiter, char **env, t_cmd *cmd,
 						int i);
@@ -258,8 +255,24 @@ void				execute_single_cmd(t_cmd *cmd, t_env **env_list,
 						char **env_array);
 int					is_builtin(char *cmd);
 
+// Signals 
+void	signal_check(t_cmd *cmd);
+void	signal_init_interactive(void);
+void	signal_init_exec(void);
+void	signal_init_heredoc(void);
+void	signal_init_child(void);
+void	signal_restore_default(void);
+void	signal_reinit_after_fork(int context);
+void	signal_handler_interactive(int signal);
+void	signal_handler_heredoc(int signal);
+int		is_signal_received(void);
+void	reset_signal_received(void);
+
+
 // main tester (to be removed)
 void				print_parse(t_cmd *cmd);
 void				print_tokens(t_token *tokens);
+
+
 
 #endif

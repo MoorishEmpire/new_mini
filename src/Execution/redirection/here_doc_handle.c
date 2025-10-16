@@ -73,16 +73,19 @@ int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 
 	if (pipe(fd) == -1)
 		return (-1);
+	signal_init_exec();
 	pid = fork();
 	if (pid == -1)
 	{
 		close(fd[0]);
 		close(fd[1]);
+		signal_init_interactive();
 		return (-1);
 	}
 	if (pid == 0)
 	{
 		close(fd[0]);
+		signal_init_heredoc();
 		del = strip_str(delimiter);
 		h.delimiter = del;
 		h.env = env;
@@ -90,5 +93,5 @@ int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 		h.i = i;
 		(heredoc_child_loop(fd[1], &h), close(fd[1]), free(del), exit(0));
 	}
-	return (close(fd[1]), waitpid(pid, NULL, 0), fd[0]);
+	return (close(fd[1]), waitpid(pid, NULL, 0),signal_init_interactive(), fd[0]);
 }
