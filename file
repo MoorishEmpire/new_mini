@@ -1,5 +1,11 @@
+.
+..
+.DS_Store
+.git
+.vscode
+Makefile
 file
 includes
-Makefile
 minishell
+readline-8.2.13
 src
