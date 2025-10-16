@@ -6,36 +6,35 @@ static void    handel_fork_error(t_cmd *cmd)
     cmd->exit_status = 1;
 }
 
-static void	path_not_found(t_cmd *cmd)
+static void path_not_found(t_cmd *cmd)
 {
-	if (access(cmd->argv[0], F_OK) == 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd(": Permission denied", 2);
-		ft_putstr_fd("\n", 2);
-		cmd->exit_status = 126;
-		return ;
-	}
-	else
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd(": command not found", 2);
-		ft_putstr_fd("\n", 2);
-		cmd->exit_status = 127;
-	}
+    if (cmd->argv[0] && ft_strchr(cmd->argv[0], '/'))
+    {
+        if (access(cmd->argv[0], F_OK) == 0)
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(cmd->argv[0], 2);
+            ft_putstr_fd(": Permission denied\n", 2);
+            cmd->exit_status = 126;
+            return;
+        }
+    }
+
+    ft_putstr_fd("minishell: ", 2);
+    if (cmd->argv[0])
+        ft_putstr_fd(cmd->argv[0], 2);
+    ft_putstr_fd(": command not found\n", 2);
+    cmd->exit_status = 127;
 }
 
 static int is_valid_path(t_cmd *cmd, char *path)
 {
-    if (!*path)
+    if (!path || !*path)
     {
         path_not_found(cmd);
-        return (0);
-
+        return 0;
     }
-    return (1);
+    return 1;
 }
 
 static void    execute_child_process(t_cmd *cmd, char *path, char **envp)
@@ -83,6 +82,11 @@ void execute_externals(t_cmd *cmd, t_env **env_list)
     if (pid == 0)
     {
         signal_init_child();
+        if (apply_redirections(cmd, envp) == -1)
+		{
+			perror("redirection");
+			exit(1);
+		}
         execute_child_process(cmd, path, envp);
 
     }

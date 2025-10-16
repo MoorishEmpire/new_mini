@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 22:33:09 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:39:47 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 		exec_builtin_cmd(cmd, env_list, env_array, saved_io);
 	else
 		execute_externals(cmd, env_list);
+		
 }
 
 int	main(int ac, char **av, char **env)
