@@ -18,7 +18,7 @@ static char	*cd_home_error(char *oldpwd, t_cmd *cmd)
 {
 	free(oldpwd);
 	ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	cmd->exit_status = 1;
+	cmd->ctx->exit.exit_status = 1;
 	return (NULL);
 }
 
@@ -26,7 +26,7 @@ static char	*cd_oldpwd_error(char *oldpwd, t_cmd *cmd)
 {
 	free(oldpwd);
 	ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-	cmd->exit_status = 1;
+	cmd->ctx->exit.exit_status = 1;
 	return (NULL);
 }
 
@@ -77,7 +77,7 @@ int			ft_cd(char **args, t_env **env, t_cmd *cmd)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		if (is_path_allocated)
 			free(path);
-		cmd->exit_status = 1;
+		cmd->ctx->exit.exit_status = 1;
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
@@ -89,6 +89,6 @@ int			ft_cd(char **args, t_env **env, t_cmd *cmd)
 	free(newpwd);
 	if (is_path_allocated)
 		free(path);
-	cmd->exit_status = 0;
+	cmd->ctx->exit.exit_status = 0;
 	return (0);
 }

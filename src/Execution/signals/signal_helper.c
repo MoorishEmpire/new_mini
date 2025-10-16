@@ -17,7 +17,7 @@ void    signal_init_interactive(void)
     setup_sigaction(SIGINT, signal_handler_interactive, SA_RESTART);
     setup_sigaction(SIGQUIT, SIG_IGN, SA_RESTART);
     setup_sigaction(SIGPIPE, SIG_IGN, SA_RESTART);
-    rl_catch_signals = 0;
+    rl_catch_signals = 0; // and this says undeclared variable
 }
 
 void    signal_init_exec(void)

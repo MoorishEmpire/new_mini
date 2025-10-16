@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/16 16:57:08 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:22:31 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	handle_question_mark(char *str, t_ctx *ctx, char *result)
 	char	*status;
 	int		k;
 
-	if (str[ctx->i] == '?' && (ctx->exit.exit_status || 1))
+	if (str[ctx->i] == '?')
 	{
 		status = ft_itoa(ctx->exit.exit_status);
 		k = 0;

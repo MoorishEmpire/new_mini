@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 23:20:17 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:29:25 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,39 +49,39 @@ int	handle_quotes(char *str, char *result, t_ctx *ctx)
 	return (0);
 }
 
-char	*replace_in_quotes(char *str, char **env)
+char *replace_in_quotes(char *str, char **env, t_ctx *ctx)
 {
-	char	*result;
-	t_ctx	ctx;
-
-	result = malloc(4096);
-	ctx.i = 0;
-	ctx.j = 0;
-	ctx.in_single = 0;
-	ctx.in_double = 0;
-	if (!result)
-		return (NULL);
-	while (str[ctx.i])
-	{
-		if (handle_quotes(str, result, &ctx))
-			continue ;
-		if (handle_expansion(str, result, &ctx, env))
-			continue ;
-		result[ctx.j++] = str[ctx.i++];
-	}
-	result[ctx.j] = '\0';
-	return (result);
+    char *result;
+    // Remove: t_ctx ctx;
+    
+    result = malloc(4096);
+    ctx->i = 0;  // Use arrow instead of dot
+    ctx->j = 0;
+    ctx->in_single = 0;
+    ctx->in_double = 0;
+    if (!result)
+        return (NULL);
+    while (str[ctx->i])
+    {
+        if (handle_quotes(str, result, ctx))  // Already correct
+            continue ;
+        if (handle_expansion(str, result, ctx, env))  // Already correct
+            continue ;
+        result[ctx->j++] = str[ctx->i++];
+    }
+    result[ctx->j] = '\0';
+    return (result);
 }
 
-char	*handle_double(t_token *token, char **env)
+char *handle_double(t_token *token, char **env, t_ctx *ctx)
 {
-	char	*expanded;
-	char	*final_result;
+    char *expanded;
+    char *final_result;
 
-	expanded = replace_in_quotes(token->value, env);
-	if (!expanded)
-		return (NULL);
-	final_result = remove_quotes(expanded);
-	free(expanded);
-	return (final_result);
+    expanded = replace_in_quotes(token->value, env, ctx);  // Pass ctx
+    if (!expanded)
+        return (NULL);
+    final_result = remove_quotes(expanded);
+    free(expanded);
+    return (final_result);
 }

@@ -36,7 +36,7 @@ static int	handel_args(char **args, t_cmd *cmd)
     else if (args[2])
     {
         ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-        cmd->exit_status = 1;
+        cmd->ctx->exit.exit_status = 1;
         return (-1);
     }
 
@@ -67,7 +67,7 @@ void	ft_exit(char **args, t_cmd *cmd)
 
     }
     else
-        exit_code = cmd->exit_status;
+        exit_code = cmd->ctx->exit.exit_status;
     clear_history();
     exit(exit_code);
 }

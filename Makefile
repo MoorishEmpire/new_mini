@@ -1,8 +1,10 @@
 NAME = minishell
 LIBNAME = libmini.a
 CC = gcc
-LDFLAGS = -lreadline -lncurses
-CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=address 
+READLINE_DIR = ./readline-8.2.13
+
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I$(READLINE_DIR)/include
+LDFLAGS = -L$(READLINE_DIR)/lib -lreadline
 
 # Main files
 files = 	src/Parsing/token src/main src/Parsing/parcer\
@@ -31,6 +33,9 @@ OBJS = $(files:%=%.o)
 LIBFT_DIR = src/Parsing/utils/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+# Header files
+HEADERS = includes/minishell.h includes/builtins.h includes/structures.h
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
@@ -39,7 +44,7 @@ $(NAME): $(OBJS) $(LIBFT)
 $(LIBNAME): $(OBJS)
 	ar crs $@ $(OBJS)
 
-%.o: %.c includes/minishell.h
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):

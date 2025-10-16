@@ -3,7 +3,7 @@
 static void    handel_fork_error(t_cmd *cmd)
 {
     perror("fork");
-    cmd->exit_status = 1;
+    cmd->ctx->exit.exit_status = 1;
 }
 
 static void path_not_found(t_cmd *cmd)
@@ -15,7 +15,7 @@ static void path_not_found(t_cmd *cmd)
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(cmd->argv[0], 2);
             ft_putstr_fd(": Permission denied\n", 2);
-            cmd->exit_status = 126;
+            cmd->ctx->exit.exit_status = 126;
             return;
         }
     }
@@ -24,7 +24,7 @@ static void path_not_found(t_cmd *cmd)
     if (cmd->argv[0])
         ft_putstr_fd(cmd->argv[0], 2);
     ft_putstr_fd(": command not found\n", 2);
-    cmd->exit_status = 127;
+    cmd->ctx->exit.exit_status = 127;
 }
 
 static int is_valid_path(t_cmd *cmd, char *path)
@@ -51,7 +51,7 @@ static void    execute_child_process(t_cmd *cmd, char *path, char **envp)
         free(path);
     if (envp)
         free_split(envp);
-    cmd->exit_status = 127;
+    cmd->ctx->exit.exit_status = 127;
     exit(127);
 }
 
@@ -94,7 +94,7 @@ void execute_externals(t_cmd *cmd, t_env **env_list)
     {
         waitpid(pid, &status, 0);
         //signaling to do
-        cmd->exit_status = WEXITSTATUS(status);
+       cmd->ctx->exit.exit_status = WEXITSTATUS(status);
         free(path);
         free_split(envp);
     }

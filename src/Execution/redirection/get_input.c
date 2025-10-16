@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:24:51 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 00:12:01 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:12:06 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int handle_out(char *file, int tr_ap, t_cmd *cmd)
 	if(fd == -1)
 	{
         perror(file);
-		cmd->exit_status = 1;
+		cmd->ctx->exit.exit_status = 1;
         return (-1); 
 	}
 	if(dup2(fd,STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
-		cmd->exit_status = 1;
+		cmd->ctx->exit.exit_status = 1;
         close(fd);
         return (-1);
 	}
@@ -45,13 +45,13 @@ int handle_in(char *file, t_cmd *cmd)
 	if(fd == -1)
 	{
         perror(file);
-		cmd->exit_status = 1;
+		cmd->ctx->exit.exit_status = 1;
         return (-1); 
 	}
 	if(dup2(fd,STDIN_FILENO) == -1)
 	{
 		perror("dup2");
-		cmd->exit_status = 1;
+		cmd->ctx->exit.exit_status = 1;
         close(fd);
         return (-1);
 	}

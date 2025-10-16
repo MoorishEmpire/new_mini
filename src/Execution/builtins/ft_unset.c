@@ -54,6 +54,6 @@ int ft_unset(char **args, t_env **env, t_cmd *cmd)
         }
         i++;
     }
-    cmd->exit_status = status;
+    cmd->ctx->exit.exit_status = status;
     return (status);
 }

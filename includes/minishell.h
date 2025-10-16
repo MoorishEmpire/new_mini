@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 23:04:12 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:52:29 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../src/Parsing/utils/libft/libft.h"
 # include "./builtins.h"
+#include "structures.h"
 # include <dirent.h>
 # include <errno.h>
 # include <readline/history.h>
@@ -47,78 +48,6 @@ extern volatile sig_atomic_t	g_signal_received;
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-typedef enum
-{
-	COMMAND, // done.          0
-	CMD_ARG, // done            1
-	OR,
-	AND,
-	SINGL_QU,  //               4
-	DOUBLE_QU, //				5
-	PIPE,      // done               6               8
-	REDIR_IN,  // done           9
-	REDIR_OUT, // done          10
-	APPEND,    // done             11
-	HERE_DOC,  // done           12
-	FILE_NAME, // tbd
-	VAR,
-	QUOTED_VAR,
-	CONCATENATED_VAR,
-}					NodeType;
-
-typedef struct s_token
-{
-	char			*value;
-	char			*var_nam;
-	NodeType		type;
-	int				quote_flag;
-	struct s_token	*next;
-}					t_token;
-
-typedef struct s_exit
-{
-	int				exit_status;
-}					t_exit;
-
-typedef struct s_ctx
-{
-	int				i;
-	int				j;
-	int				in_single;
-	int				in_double;
-	int				len;
-	t_exit			exit;
-}					t_ctx;
-
-//t_cmd is defined in builtins.h
-
-typedef struct s_heredoc
-{
-	char			*delimiter;
-	char			**env;
-	t_cmd			*cmd;
-	int				i;
-}					t_heredoc;
-
-typedef struct s_process
-{
-	t_token			*head;
-	t_token			*tail;
-	t_token			*output;
-	t_token			*expand;
-	t_token			*wild;
-	t_token			*strip;
-	t_cmd			*cmd;
-}					t_process;
-
-typedef struct s_quote_ctx
-{
-	int	i;
-	int	in_q;
-	char	type;
-	int	len;
-}	t_quote_ctx;
-
 
 int					is_space_unquoted(char *str, int index);
 
@@ -136,7 +65,7 @@ void				print_syntax_error(char *token);
 void				print_file_error(char *filename);
 void				print_ambiguous_redirect(char *var_name);
 void				print_cmd_not_found(char *cmd);
-t_token				*expanding_it(t_token *token, char **env);
+t_token *expanding_it(t_token *token, char **env, t_ctx *ctx);
 
 void				append_list(t_token **head, t_token *new_node);
 
@@ -152,7 +81,7 @@ void				clear_tokens(t_token **head);
 void				print_tokens(t_token *tokens);
 t_token				*tokenizer(t_token **head, t_token **tail, char *input);
 t_cmd				*store_cmds(t_token *token);
-t_token				*expand_variables(t_token *tokens, char **envp);
+t_token *expand_variables(t_token *tokens, char **envp, t_ctx *ctx);
 t_cmd				*populate_cmd_data(t_cmd *cmd, t_token *token);
 t_cmd				*build_cmd_list(t_token *token);
 
@@ -185,13 +114,13 @@ int					is_token_breaker(char c);
 int					is_empty_string(t_token *token);
 int					redir_check(t_token *token);
 
-char				*replace_in_quotes(char *str, char **env);
+char *replace_in_quotes(char *str, char **env, t_ctx *ctx);
 char				*strip_str(char *str);
-char				*handle_double(t_token *token, char **env);
+char *handle_double(t_token *token, char **env, t_ctx *ctx);
 int	handle_dollars(char *str, t_ctx *ctx, char *result, char **env);
 int	replace_single_variable(char *str, t_ctx *ctx, char *result, char **env);
-char				*expand(t_token *tokens, char **env);
-char				*replace_in_arg(char *str, char **env);
+char *expand(t_token *tokens, char **env, t_ctx *ctx);
+char *replace_in_arg(char *str, char **env, t_ctx *ctx);
 int					is_it_var(char *str);
 char				*var_name(char *str);
 char				*get_env_value(char *name, char **env);
@@ -246,7 +175,7 @@ int					apply_redirections(t_cmd *cmd, char **env);
 char				*get_input(void);
 void				free_token_lists(t_token **output, t_token **expand,
 						t_token **wild, t_token **strip);
-t_cmd				*process_line(char *input, char **env);
+t_cmd	*process_line(char *input, char **env, t_ctx *ctx);
 int					check_unclosed_quotes(const char *line);
 char				*read_complete_line(void);
 void				execute_cmd(t_cmd *cmd, t_env **env_list);

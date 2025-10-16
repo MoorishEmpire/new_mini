@@ -3,6 +3,7 @@
 
 # include <fcntl.h>
 # include <signal.h>
+#include "structures.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -10,23 +11,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-typedef struct s_env
-{
-	char			*var;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-typedef struct s_cmd
-{
-	char			**argv;
-	char			**redirect;
-	char			**file;
-	struct s_cmd	*next;
-	int				here_fd;
-	int				*quoted_file;
-	int				exit_status;
-}					t_cmd;
 
 //builtins funtions
 void		ft_echo(char **args, t_cmd *cmd);

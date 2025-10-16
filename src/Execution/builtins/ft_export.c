@@ -90,6 +90,6 @@ int ft_export(char **args, t_env **env, t_cmd *cmd)
             status = 1;
         i++;
     }
-    cmd->exit_status = status;
+    cmd->ctx->exit.exit_status = status;
     return (status);
 }

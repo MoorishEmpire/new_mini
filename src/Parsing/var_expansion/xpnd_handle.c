@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 23:20:32 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:31:59 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	handle_dollar_quote(t_ctx *ctx)
 
 int	handle_expansion(char *str, char *result, t_ctx *ctx, char **env)
 {
-	ctx->exit.exit_status = 0;
 	if (should_expand(str, ctx, '?'))
 		return (handle_exit_status(result, ctx));
 	if (should_expand(str, ctx, '$'))

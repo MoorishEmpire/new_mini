@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:58:03 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/13 20:34:54 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:46:46 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ int	has_quotes(char *str)
 char	*process_lines(char *line, char **env, t_cmd *cmd, int i)
 {
 	char	*content;
+	t_ctx	*ctx;
 
+	ctx = NULL;
 	if (cmd->quoted_file[i] == 0)
-		content = replace_in_arg(line, env);
+		content = replace_in_arg(line, env,ctx);
 	else
 		content = ft_strdup(line);
 	return (content);

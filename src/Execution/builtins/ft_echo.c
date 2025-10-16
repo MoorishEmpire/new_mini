@@ -36,5 +36,5 @@ void		ft_echo(char **args, t_cmd *cmd)
 	}
 	if (nl)
 		printf("\n");
-	cmd->exit_status = 0;
+	cmd->ctx->exit.exit_status = 0;
 }
