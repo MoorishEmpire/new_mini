@@ -197,10 +197,25 @@ void	signal_handler_heredoc(int signal);
 int		is_signal_received(void);
 void	reset_signal_received(void);
 
+// Pipes
+void    execute_pipeline(t_cmd *cmd, t_env **env_list, char **env_array);
+void	exec_builtin_in_pipe(t_cmd *cmd, t_env **env_list);
+void    exec_external_in_pipe(t_cmd *cmd, char **envp, t_env *env_mlist);
+void	execute_pipe_child(t_cmd *cmd, int **pipes, int idx, int total,
+	t_env **env_list, char **envp);
+void	wait_for_children(t_cmd *cmd, pid_t *pids, int cmd_count);
+void	fork_and_execute(t_cmd *cmd, int **pipes, pid_t *pids, t_pipes_ctx *pipe_ctx);
+void    close_pipes(int **pipes, int pipe_count);
+void    setup_pipe_redirections(int **pipes, int idx, int total);
+void    close_parent_pipes(int **pipes, int idx, int total);
+
+
 
 // main tester (to be removed)
 void				print_parse(t_cmd *cmd);
 void				print_tokens(t_token *tokens);
+
+
 
 
 

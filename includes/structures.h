@@ -90,4 +90,11 @@ typedef struct s_quote_ctx
 	int	len;
 }	t_quote_ctx;
 
+typedef struct s_pipes_ctx
+{
+	int		cmd_count;
+	t_env	**env_list;
+	char	**env_array;
+}					t_pipes_ctx;
+
 #endif

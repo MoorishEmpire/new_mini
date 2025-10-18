@@ -68,6 +68,11 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 {
 	int	saved_io[2];
 
+	if (cmd->next)
+	{
+		execute_pipeline(cmd, env_list, env_array);
+		return;
+	}
 	saved_io[0] = dup(STDIN_FILENO);
 	saved_io[1] = dup(STDOUT_FILENO);
 	if (!cmd || !cmd->argv || !cmd->argv[0])
