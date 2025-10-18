@@ -1,19 +1,5 @@
 #include "../../../includes/minishell.h"
 
-char	*get_env(t_env *env, char *var)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->var, var) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 static char    *check_current_dir(char *cmd)
 {
     char    *full_path;

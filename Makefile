@@ -26,6 +26,8 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Parsing/wild_card/wild_help src/Parsing/wild_card/wild_misc src/Parsing/var_expansion/minette\
 			src/Execution/signals/signals src/Execution/signals/signal_helper src/Execution/signals/signal_helper1\
 			src/Execution/utils/externals src/Execution/utils/externals_helper\
+			src/Execution/pipes/pipe src/Execution/pipes/pipe_utils src/Execution/pipes/pipe_utils2\
+			src/Execution/utils/env src/Execution/utils/env_helpers
 
 CFILES = $(files:%=%.c)
 OBJS = $(files:%=%.o)

@@ -1,19 +1,5 @@
 #include "../../../includes/minishell.h"
 
-static char	*get_env(t_env *env, char *var)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->var, var) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 static char	*cd_home_error(char *oldpwd, t_cmd *cmd)
 {
 	free(oldpwd);

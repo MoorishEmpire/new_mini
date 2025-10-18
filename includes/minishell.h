@@ -161,6 +161,15 @@ int					execute_builtin(t_cmd *cmd, t_env **env);
 void				execute_externals(t_cmd *cmd, t_env **env);
 char				*get_cmd_path(char *cmd, t_env *env);
 char				**list_to_env(t_env *list);
+char				*get_env(t_env *env, char *var);
+void				increment_shlvl(t_env **env);
+void				update_env_var(t_env **env, char *var, char *value);
+void				free_env_list(t_env *env);
+t_env				*copy_env_list(t_env *env);
+void				lstenv_add_back(t_env **env, t_env *new_node);
+void				sort_env_list(t_env **env);
+t_env				*env_to_list(char **env);
+char				**list_to_env(t_env *list);
 
 // redirections for execution
 int					handle_out(char *file, int tr_ap, t_cmd *cmd);

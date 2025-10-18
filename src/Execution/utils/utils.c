@@ -161,64 +161,7 @@ int	is_valid_key(char *key)
 	return (1);
 }
 
-void	apply_redirection(t_cmd *cmd)
-{
-	int	i;
-	int	fd;
 
-	if (!cmd->redirect || !cmd->file)
-		return;
-
-	i = 0;
-	while (cmd->redirect[i] && cmd->file[i])
-	{
-		if (ft_strcmp(cmd->redirect[i], "<") == 0)
-		{
-			fd = open(cmd->file[i], O_RDONLY);
-			if (fd == -1)
-			{
-				perror(cmd->file[i]);
-				return;
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (ft_strcmp(cmd->redirect[i], ">") == 0)
-		{
-			fd = open(cmd->file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-			{
-				perror(cmd->file[i]);
-				return;
-			}
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (ft_strcmp(cmd->redirect[i], ">>") == 0)
-		{
-			fd = open(cmd->file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-			{
-				perror(cmd->file[i]);
-				return;
-			}
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (ft_strcmp(cmd->redirect[i], "<<") == 0)
-		{
-			fd = open(cmd->file[i], O_RDONLY);
-			if (fd == -1)
-			{
-				perror(cmd->file[i]);
-				return;
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		i++;
-	}
-}
 
 int	is_builtin(char *cmd)
 {

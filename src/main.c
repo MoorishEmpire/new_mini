@@ -96,6 +96,7 @@ int main(int ac, char **av, char **env)
     (void)av;
 
     env_list = env_to_list(env);
+	increment_shlvl(&env_list);
     ctx.exit.exit_status = 0;
     signal_init_interactive();
     while (1)
