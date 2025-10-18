@@ -21,7 +21,7 @@ static int	handle_n_flag(char **args, int *nl)
 	return (i);
 }
 
-void		ft_echo(char **args, t_cmd *cmd)
+void	ft_echo(char **args, t_cmd *cmd)
 {
 	int	i;
 	int	nl;

@@ -1,3 +1,5 @@
+
+
 #include "../../../includes/minishell.h"
 
 static char	*cd_home_error(char *oldpwd, t_cmd *cmd)
@@ -37,7 +39,7 @@ static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 	return (path);
 }
 
-int			ft_cd(char **args, t_env **env, t_cmd *cmd)
+int	ft_cd(char **args, t_env **env, t_cmd *cmd)
 {
 	char	*path;
 	char	*oldpwd;
@@ -51,15 +53,14 @@ int			ft_cd(char **args, t_env **env, t_cmd *cmd)
 	path = get_cd_path(args, env, oldpwd, cmd);
 	if (!path)
 		return (1);
-
 	if (!args[1] || !ft_strcmp(args[1], "~") || !ft_strcmp(args[1], "-"))
 		is_path_allocated = 1;
-	
 	if (chdir(path) == -1)
 	{
 		free(oldpwd);
 		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);	cmd = NULL;
+		ft_putstr_fd(path, 2);
+		cmd = NULL;
 		ft_putstr_fd(": No such file or directory\n", 2);
 		if (is_path_allocated)
 			free(path);

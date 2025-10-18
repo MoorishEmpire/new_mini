@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:47 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/16 21:38:54 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/18 23:45:44 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	check_unclosed_quotes(const char *line)
 t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 {
 	t_process	p;
+	t_cmd		*temp;
 
 	p.head = NULL;
 	p.tail = NULL;
@@ -44,11 +45,11 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 	p.strip = NULL;
 	p.cmd = NULL;
 	p.output = tokenizer(&p.head, &p.tail, input);
-	p.expand = expanding_it(p.output, env, ctx);  // Pass ctx
+	p.expand = expanding_it(p.output, env, ctx);
 	p.wild = handel_wild_card(p.expand);
 	p.strip = stripper(p.wild);
 	p.cmd = build_cmd_list(p.strip);
-	t_cmd *temp = p.cmd;
+	temp = p.cmd;
 	while (temp)
 	{
 		temp->ctx = ctx;

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/16 21:22:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/18 23:44:09 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	handle_variable_or_dollar(char *str, t_ctx *ctx, char *result, char **env)
 	char	*var_name;
 	char	*var_value;
 	int		start;
+	int		k;
 
 	start = ctx->i;
 	while (str[ctx->i] && (ft_isalnum(str[ctx->i]) || str[ctx->i] == '_'))
@@ -49,13 +50,11 @@ int	handle_variable_or_dollar(char *str, t_ctx *ctx, char *result, char **env)
 	free(var_name);
 	if (!var_value)
 		return (ctx->j);
-
-	int k = 0;
+	k = 0;
 	while (var_value[k])
 		result[ctx->j++] = var_value[k++];
 	free(var_value);
 	return (ctx->j);
-
 }
 
 int	handle_dollars(char *str, t_ctx *ctx, char *result, char **env)

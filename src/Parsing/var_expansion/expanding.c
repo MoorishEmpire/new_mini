@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:32:27 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/16 21:29:55 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/18 23:44:59 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,31 @@ void	append_list(t_token **head, t_token *new_node)
 	}
 }
 
-char *replace_in_arg(char *str, char **env, t_ctx *ctx)
+char	*replace_in_arg(char *str, char **env, t_ctx *ctx)
 {
-    char *result;
-    // Remove: t_ctx ctx;
-    
-    result = malloc(4096);
-    if (!result)
-        return (NULL);
-    ctx->i = 0;  // Use arrow
-    ctx->j = 0;
-    while (str[ctx->i])
-    {
-        if (str[ctx->i] == '$')
-            ctx->j = handle_dollars(str, ctx, result, env);  // Already correct
-        else
-            result[ctx->j++] = str[ctx->i++];
-    }
-    result[ctx->j] = '\0';
-    return (result);
+	char	*result;
+
+	result = malloc(4096);
+	if (!result)
+		return (NULL);
+	ctx->i = 0;
+	ctx->j = 0;
+	while (str[ctx->i])
+	{
+		if (str[ctx->i] == '$')
+			ctx->j = handle_dollars(str, ctx, result, env);
+		else
+			result[ctx->j++] = str[ctx->i++];
+	}
+	result[ctx->j] = '\0';
+	return (result);
 }
 
-char *expand(t_token *tokens, char **env, t_ctx *ctx)
+char	*expand(t_token *tokens, char **env, t_ctx *ctx)
 {
-    char *var_val;
+	char	*var_val;
 
-    var_val = NULL;
-    var_val = replace_in_arg(tokens->value, env, ctx);  // Pass ctx
-    return (var_val);
+	var_val = NULL;
+	var_val = replace_in_arg(tokens->value, env, ctx);
+	return (var_val);
 }
