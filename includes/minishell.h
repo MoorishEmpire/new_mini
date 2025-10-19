@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 
 # define REDD "\033[0;101m"
 # define WHITE "\033[0;7m"
@@ -158,7 +159,6 @@ char	**expand_wildcard(char *token, NodeType type);
 
 // Builtins
 int					execute_builtin(t_cmd *cmd, t_env **env);
-void				execute_externals(t_cmd *cmd, t_env **env);
 char				*get_cmd_path(char *cmd, t_env *env);
 char				**list_to_env(t_env *list);
 char				*get_env(t_env *env, char *var);
@@ -170,6 +170,20 @@ void				lstenv_add_back(t_env **env, t_env *new_node);
 void				sort_env_list(t_env **env);
 t_env				*env_to_list(char **env);
 char				**list_to_env(t_env *list);
+
+// Externals
+void	execute_externals(t_cmd *cmd, t_env **env);
+void    command_not_found(t_cmd *cmd);
+int     validate_absolute_path(t_cmd *cmd);
+int     is_valid_path(t_cmd *cmd, char *path);
+void    handle_child_exit(int status, t_cmd *cmd);
+void    cleanup_resources(char *path, char **envp);
+void    handel_fork_error(t_cmd *cmd);
+char    *get_command_path(t_cmd *cmd, t_env *env_list);
+int     check_if_directory(const char *path, t_cmd *cmd);
+int     check_permission(const char *path, t_cmd *cmd);
+int     check_file_not_exist(t_cmd *cmd);
+
 
 // redirections for execution
 int					handle_out(char *file, int tr_ap, t_cmd *cmd);
