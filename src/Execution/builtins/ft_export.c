@@ -69,8 +69,8 @@ int	process_export_arg(char *arg, t_env **env)
 
 int	ft_export(char **args, t_env **env, t_cmd *cmd)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	if (!args[1])
 	{

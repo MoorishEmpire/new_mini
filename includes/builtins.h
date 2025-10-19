@@ -36,6 +36,9 @@ int			is_builtin(char *cmd);
 char		*find_command_path(char *cmd);
 char		**env_to_array(t_env *env);
 void		sort_env_list(t_env **env);
+char	*expand_tilde(char *path, t_env **env);
+char	*cd_oldpwd_error(char *oldpwd, t_cmd *cmd);
+char	*cd_home_error(char *oldpwd, t_cmd *cmd);
 
 // Utility functions
 int			ft_strcmp(const char *s1, const char *s2);

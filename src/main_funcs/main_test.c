@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:31:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/18 23:46:19 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:13:55 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	print_tokens(t_token *tokens)
 		printf("\n\nToken is: %s\n", tokens->value);
 		tokens = tokens->next;
 	}
+}
+
+void	init_context(t_ctx *ctx)
+{
+	ctx->exit.exit_status = 0;
+	signal_init_interactive();
 }
 
 void	print_parse(t_cmd *cmd)

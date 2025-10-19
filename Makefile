@@ -15,7 +15,7 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Parsing/var_expansion/support src/Parsing/var_expansion/variables\
 			src/Parsing/utils/helper_funcs/helps src/Parsing/quotes/quote_stripping src/Parsing/quotes/strip_str\
 			src/Parsing/wild_card/file_read src/Parsing/var_expansion/norm src/Parsing/var_expansion/xpnd_handle\
-			src/Execution/builtins/builtins src/Execution/builtins/ft_cd\
+			src/Execution/builtins/builtins src/Execution/builtins/ft_cd src/Execution/builtins/cd_helper\
 			src/Execution/builtins/ft_echo src/Execution/builtins/ft_env\
 			src/Execution/builtins/ft_export src/Execution/builtins/ft_exit\
 			src/Execution/builtins/ft_pwd src/Execution/builtins/ft_unset\

@@ -1,5 +1,3 @@
-
-
 #include "../../../includes/minishell.h"
 
 static void	run_builtin(t_cmd *cmd, t_env **env)
