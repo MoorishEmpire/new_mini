@@ -22,7 +22,7 @@ static char	*expand_tilde(char *path, t_env **env)
 {
 	char	*home;
 	char	*expanded;
-	
+
 	if (!path || path[0] != '~')
 		return (path);
 	home = get_env(*env, "HOME");
@@ -49,7 +49,6 @@ static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 			return (cd_home_error(oldpwd, cmd));
 		return (ft_strdup(path));
 	}
-	
 	if (!ft_strcmp(args[1], "-"))
 	{
 		path = get_env(*env, "OLDPWD");
@@ -65,9 +64,8 @@ int	ft_cd(char **args, t_env **env, t_cmd *cmd)
 	char	*path;
 	char	*oldpwd;
 	char	*newpwd;
-	int		print_newpwd;
-	int		is_path_allocated;
 
+	int (is_path_allocated), (print_newpwd);
 	is_path_allocated = 0;
 	oldpwd = getcwd(NULL, 0);
 	print_newpwd = (args[1] && !ft_strcmp(args[1], "-"));
@@ -79,8 +77,7 @@ int	ft_cd(char **args, t_env **env, t_cmd *cmd)
 	if (chdir(path) == -1)
 	{
 		free(oldpwd);
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
+		(ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(path, 2));
 		ft_putstr_fd(": No such file or directory\n", 2);
 		if (is_path_allocated)
 			free(path);
@@ -88,12 +85,10 @@ int	ft_cd(char **args, t_env **env, t_cmd *cmd)
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
-	update_env_var(env, "OLDPWD", oldpwd);
-	update_env_var(env, "PWD", newpwd);
+	(update_env_var(env, "OLDPWD", oldpwd), update_env_var(env, "PWD", newpwd));
 	if (print_newpwd && newpwd)
 		printf("%s\n", newpwd);
-	free(oldpwd);
-	free(newpwd);
+	(free(oldpwd), free(newpwd));
 	if (is_path_allocated)
 		free(path);
 	cmd->ctx->exit.exit_status = 0;

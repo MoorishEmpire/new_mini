@@ -58,9 +58,11 @@ typedef struct s_cmd
 	char			**file;
 	struct s_cmd	*next;
 	int				here_fd;
+	int				redir_in_fd;
+	int				redir_out_fd;
 	int				*quoted_file;
 	int				exit_status;
-	t_ctx			*ctx;  // ADD THIS LINE
+	t_ctx			*ctx;
 }					t_cmd;
 
 typedef struct s_heredoc
