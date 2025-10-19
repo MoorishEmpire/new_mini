@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:24:51 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/19 19:35:00 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/19 21:04:47 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int handle_out(char *file, int tr_ap, t_cmd *cmd)
 {
 	int fd;
-	
+
 	if(tr_ap == 1)
 		fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else

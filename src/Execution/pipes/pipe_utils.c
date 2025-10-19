@@ -28,9 +28,9 @@ void    execute_pipe_child(t_cmd *cmd, int **pipes, int idx,
         int total, t_env **env_list, char **envp)
 {
     signal_init_child();
-    setup_pipe_redirections(pipes, idx, total);
-    if (apply_redirections(cmd, envp) == -1)
+    if (apply_redirections(cmd, envp) == -1)      // File redirections FIRST
         exit(1);
+    setup_pipe_redirections(pipes, idx, total);    // Pipe redirections SECOND (overwrites files)
     if (is_builtin(cmd->argv[0]))
         exec_builtin_in_pipe(cmd, env_list);
     else
