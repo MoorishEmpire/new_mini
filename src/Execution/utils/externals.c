@@ -42,6 +42,7 @@ static void    execute_child_process(t_cmd *cmd, char *path, char **envp)
     if (path)
         execve(path, cmd->argv, envp);
 
+    
     ft_putstr_fd("minishell: ", 2);
     ft_putstr_fd(cmd->argv[0], 2);
     ft_putstr_fd(": command not found", 2);
@@ -64,6 +65,12 @@ void execute_externals(t_cmd *cmd, t_env **env_list)
 
     if (!cmd || !cmd->argv || !cmd->argv[0])
         return;
+
+    if (ft_strcmp(cmd->argv[0], "!") == 0 || ft_strcmp(cmd->argv[0], ":") == 0)
+    {
+        signal_init_interactive();
+        return;
+    }
 
     path = get_cmd_path(cmd->argv[0], *env_list);
     if (!is_valid_path(cmd, path))
