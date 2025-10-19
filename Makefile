@@ -44,6 +44,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	$(emo)
 	@$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) $(LDFLAGS)
+	@echo "\033[0;32m✅ Compilation successful!\033[0m"
 
 $(LIBNAME): $(OBJS)
 	ar crs $@ $(OBJS)
@@ -57,10 +58,12 @@ $(LIBFT):
 clean:
 	@rm -f $(OBJS)
 	@$(MAKE) -s -C $(LIBFT_DIR) clean
+	@echo "\033[0;33m🧹 Cleaned object files.\033[0m"
 
 fclean: clean
 	@rm -f $(NAME) $(LIBNAME)
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
+	@echo "\033[0;33m🧹 Fully cleaned project.\033[0m"
 
 re: fclean all
 
