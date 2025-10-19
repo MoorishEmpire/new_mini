@@ -1,10 +1,10 @@
 NAME = minishell
 LIBNAME = libmini.a
 CC = gcc
-LDFLAGS = -lreadline -lncurses
-CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=address 
+READLINE_DIR = ./readline-8.2.13
 
-
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I$(READLINE_DIR)/include
+LDFLAGS = -L$(READLINE_DIR)/lib -lreadline
 
 # Main files
 files = 	src/Parsing/token src/main src/Parsing/parcer\
