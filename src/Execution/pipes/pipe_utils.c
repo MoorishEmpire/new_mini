@@ -24,13 +24,34 @@ void    exec_external_in_pipe(t_cmd *cmd, char **envp, t_env *env_list)
     exit(126);
 }
 
+int has_output_redirection(t_cmd *cmd)
+{
+    int i;
+    
+    if (!cmd->redirect)
+        return (0);
+    i = 0;
+    while (cmd->redirect[i])
+    {
+        if (strcmp(cmd->redirect[i], ">") == 0 || 
+            strcmp(cmd->redirect[i], ">>") == 0)
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
+
 void    execute_pipe_child(t_cmd *cmd, int **pipes, int idx,
         int total, t_env **env_list, char **envp)
 {
+    int has_out_redir;
+    
     signal_init_child();
-    if (apply_redirections(cmd, envp) == -1)      // File redirections FIRST
+    has_out_redir = has_output_redirection(cmd);
+    if (apply_redirections(cmd, envp) == -1)
         exit(1);
-    setup_pipe_redirections(pipes, idx, total);    // Pipe redirections SECOND (overwrites files)
+    setup_pipe_redirections(pipes, idx, total, has_out_redir);
     if (is_builtin(cmd->argv[0]))
         exec_builtin_in_pipe(cmd, env_list);
     else

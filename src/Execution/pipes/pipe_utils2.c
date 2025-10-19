@@ -21,13 +21,13 @@ void    close_pipes(int **pipes, int pipe_count)
     free(pipes);
 }
 
-void    setup_pipe_redirections(int **pipes, int idx, int total)
+void    setup_pipe_redirections(int **pipes, int idx, int total, int has_output_redir)
 {
     int i;
 
     if (idx > 0)
         dup2(pipes[idx - 1][0], STDIN_FILENO);
-    if (idx < total - 1)
+    if (idx < total - 1 && !has_output_redir)
         dup2(pipes[idx][1], STDOUT_FILENO);
     i = 0;
     while (i < total - 1)
