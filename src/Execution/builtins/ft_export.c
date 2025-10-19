@@ -48,6 +48,9 @@ int	process_export_arg(char *arg, t_env **env)
 
 	if (!is_valid_key(arg))
 	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (1);
 	}
 	equal_sign = ft_strchr(arg, '=');
