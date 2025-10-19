@@ -12,6 +12,41 @@
 
 #include "../../../includes/minishell.h"
 
+static int	is_operator(NodeType type)
+{
+	return (type == PIPE || type == AND || type == OR);
+}
+
+static int	check_first_token(t_token *curr)
+{
+	if (curr && is_operator(curr->type))
+	{
+		printf("syntax error near unexpected token `%s'\n", curr->value);
+		return (1);
+	}
+	return (0);
+}
+
+static int	check_consecutive_ops(t_token *curr)
+{
+	if (is_operator(curr->type) && curr->next && is_operator(curr->next->type))
+	{
+		printf("syntax error near unexpected token `%s'\n", curr->next->value);
+		return (1);
+	}
+	return (0);
+}
+
+static int	check_last_token(t_token *last)
+{
+	if (last && is_operator(last->type))
+	{
+		printf("syntax error near unexpected token `%s'\n", last->value);
+		return (1);
+	}
+	return (0);
+}
+
 int	pipe_err(t_token **list)
 {
 	t_token	*curr;
@@ -19,26 +54,16 @@ int	pipe_err(t_token **list)
 
 	curr = *list;
 	last = NULL;
-	if (curr && (curr->type == PIPE || curr->type == AND || curr->type == OR))
-	{
-		printf("syntax error near unexpected token `%s'\n", curr->value);
+	if (check_first_token(curr))
 		return (1);
-	}
 	while (curr)
 	{
-		if ((curr->type == PIPE || curr->type == AND || curr->type == OR) && curr->next &&
-				(curr->next->type == PIPE || curr->next->type == AND || curr->next->type == OR))
-		{
-			printf("syntax error near unexpected token `%s'\n", curr->next->value);
+		if (check_consecutive_ops(curr))
 			return (1);
-		}
 		last = curr;
 		curr = curr->next;
 	}
-	if (last && (last->type == PIPE || last->type == AND || last->type == OR))
-	{
-		printf("syntax error near unexpected token `%s'\n", last->value);
+	if (check_last_token(last))
 		return (1);
-	}
 	return (0);
 }

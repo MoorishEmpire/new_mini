@@ -32,7 +32,7 @@ void	is_it_and(t_token **head, t_token **tail, int *i, char *input)
 	else
 	{
 		(*i)++;
-		return;
+		return ;
 	}
 	if (!new)
 		return ;

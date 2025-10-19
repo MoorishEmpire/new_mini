@@ -12,40 +12,6 @@
 
 #include "../../../includes/minishell.h"
 
-char	*strip_str(char *str)
-{
-	char	*res;
-	int		i;
-	int		k;
-	char	quote;
-
-	res = malloc(strlen(str) + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	k = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '"')
-		{
-			quote = str[i++];
-			while (str[i] && str[i] != quote)
-				res[k++] = str[i++];
-			if (str[i] == quote)
-				i++;
-		}
-		else if (str[i] == '\\' && str[i + 1])
-		{
-			i++;
-			res[k++] = str[i++];
-		}
-		else
-			res[k++] = str[i++];
-	}
-	res[k] = '\0';
-	return (res);
-}
-
 static void	handle_redirect_quotes(t_token *tok)
 {
 	if (is_token_redirect(tok) && tok->next)

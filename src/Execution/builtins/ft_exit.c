@@ -20,16 +20,45 @@ static int	is_nbr(const char *str)
 	return (1);
 }
 
-static int	handel_args(char **args, t_cmd *cmd)
+static long long	safe_atoi_exit(const char *str)
 {
 	long long	val;
 	int			i;
+	int			sign;
 
+	val = 0;
+	i = 0;
+	sign = 1;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i])
+	{
+		if (val > (LONG_MAX - (str[i] - '0')) / 10)
+		{
+			(ft_putstr_fd("minishell: exit: ", 2), ft_putstr_fd((char *)str, 2));
+			ft_putstr_fd(": numeric argument required\n", 2);
+			exit(2);
+		}
+		val = val * 10 + (str[i] - '0');
+		i++;
+	}
+	return (val * sign);
+}
+
+static int	handel_args(char **args, t_cmd *cmd)
+{
+	long long	val;
+
+	val = 0;
 	if (!is_nbr(args[1]))
 	{
 		(ft_putstr_fd("minishell: exit: ", 2), ft_putstr_fd(args[1], 2));
 		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(255);
+		exit(2);
 	}
 	else if (args[2])
 	{
@@ -37,15 +66,7 @@ static int	handel_args(char **args, t_cmd *cmd)
 		cmd->ctx->exit.exit_status = 1;
 		return (-1);
 	}
-	val = 0;
-	i = 0;
-	if (args[1][0] == '-' || args[1][0] == '+')
-		i = 1;
-	while (args[1][i])
-	{
-		val = val * 10 + (args[1][i] - '0');
-		i++;
-	}
+	val = safe_atoi_exit(args[1]);
 	return (val % 256);
 }
 
