@@ -24,7 +24,7 @@ static long long	safe_atoi_exit(const char *str, int *overflow)
 {
 	long long	val;
 
-	int(i), (sign);
+	int (i), (sign);
 	val = 0;
 	i = 0;
 	sign = 1;
