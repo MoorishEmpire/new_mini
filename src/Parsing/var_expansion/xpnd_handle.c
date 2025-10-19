@@ -50,6 +50,12 @@ static int	handle_dollar_quote(t_ctx *ctx)
 
 int	handle_expansion(char *str, char *result, t_ctx *ctx, char **env)
 {
+	if (str[ctx->i] == '\\' && str[ctx->i + 1] && !ctx->in_single)
+	{
+		ctx->i++;
+		result[ctx->j++] = str[ctx->i++];
+		return (1);
+	}
 	if (should_expand(str, ctx, '?'))
 		return (handle_exit_status(result, ctx));
 	if (should_expand(str, ctx, '$'))

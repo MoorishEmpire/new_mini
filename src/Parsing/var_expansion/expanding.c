@@ -61,7 +61,12 @@ char	*replace_in_arg(char *str, char **env, t_ctx *ctx)
 	ctx->j = 0;
 	while (str[ctx->i])
 	{
-		if (str[ctx->i] == '$')
+		if (str[ctx->i] == '\\' && str[ctx->i + 1])
+		{
+			ctx->i++;
+			result[ctx->j++] = str[ctx->i++];
+		}
+		else if (str[ctx->i] == '$')
 			ctx->j = handle_dollars(str, ctx, result, env);
 		else
 			result[ctx->j++] = str[ctx->i++];
