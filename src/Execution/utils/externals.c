@@ -1,8 +1,5 @@
 #include "../../../includes/minishell.h"
 
-
-
-
 static void handle_child(t_cmd *cmd, char *path, char **envp)
 {
     signal_init_child();

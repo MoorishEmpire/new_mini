@@ -27,6 +27,12 @@ void	is_it_and(t_token **head, t_token **tail, int *i, char *input)
 	{
 		new = create_token(AND, "&&", NULL);
 		*i += 1;
+		(*i)++;
+	}
+	else
+	{
+		(*i)++;
+		return;
 	}
 	if (!new)
 		return ;
@@ -35,7 +41,6 @@ void	is_it_and(t_token **head, t_token **tail, int *i, char *input)
 	else
 		(*tail)->next = new;
 	*tail = new;
-	(*i)++;
 }
 
 static void	prepare_token_ctx(t_quote_ctx *ctx, int start_index)

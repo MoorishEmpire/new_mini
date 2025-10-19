@@ -113,14 +113,14 @@ t_token	*tokenizer(t_token **head, t_token **tail, char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ')
+		if (input[i] == ' ' || input[i] == '\t')
 		{
 			i++;
 			continue ;
 		}
 		if (input[i] == '|')
 			is_it_pipe(head, tail, &i, input);
-		if (input[i] == '&')
+		else if (input[i] == '&')
 			is_it_and(head, tail, &i, input);
 		else if (input[i] == '<' || input[i] == '>')
 			is_it_op(head, tail, &i, input);
