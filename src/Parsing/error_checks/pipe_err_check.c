@@ -26,9 +26,8 @@ int	pipe_err(t_token **list)
 	}
 	while (curr)
 	{
-		if ((curr->type == PIPE || curr->type == AND || curr->type == OR) && curr->next && (curr->next->type == PIPE || curr->next->type == AND
-			|| curr->next->type == OR && (curr->next->type == PIPE || curr->next->type == AND
-				|| curr->next->type == OR))
+		if ((curr->type == PIPE || curr->type == AND || curr->type == OR) && curr->next &&
+				(curr->next->type == PIPE || curr->next->type == AND || curr->next->type == OR))
 		{
 			printf("syntax error near unexpected token `%s'\n", curr->next->value);
 			return (1);
@@ -38,7 +37,7 @@ int	pipe_err(t_token **list)
 	}
 	if (last && (last->type == PIPE || last->type == AND || last->type == OR))
 	{
-		printf("syntax error near unexpected token `|'\n");
+		printf("syntax error near unexpected token `%s'\n", last->value);
 		return (1);
 	}
 	return (0);

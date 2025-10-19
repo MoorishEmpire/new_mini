@@ -34,6 +34,11 @@ char	*strip_str(char *str)
 			if (str[i] == quote)
 				i++;
 		}
+		else if (str[i] == '\\' && str[i + 1])
+		{
+			i++;
+			res[k++] = str[i++];
+		}
 		else
 			res[k++] = str[i++];
 	}
