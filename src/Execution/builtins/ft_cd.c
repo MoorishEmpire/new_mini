@@ -18,25 +18,46 @@ static char	*cd_oldpwd_error(char *oldpwd, t_cmd *cmd)
 	return (NULL);
 }
 
+static char	*expand_tilde(char *path, t_env **env)
+{
+	char	*home;
+	char	*expanded;
+	
+	if (!path || path[0] != '~')
+		return (path);
+	home = get_env(*env, "HOME");
+	if (!home)
+		return (path);
+	if (path[1] == '\0')
+		return (ft_strdup(home));
+	if (path[1] == '/')
+	{
+		expanded = ft_strjoin(home, path + 1);
+		return (expanded);
+	}
+	return (path);
+}
+
 static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 {
 	char	*path;
 
-	if (!args[1] || !ft_strcmp(args[1], "~"))
+	if (!args[1])
 	{
 		path = get_env(*env, "HOME");
 		if (!path)
 			return (cd_home_error(oldpwd, cmd));
+		return (ft_strdup(path));
 	}
-	else if (!ft_strcmp(args[1], "-"))
+	
+	if (!ft_strcmp(args[1], "-"))
 	{
 		path = get_env(*env, "OLDPWD");
 		if (!path)
 			return (cd_oldpwd_error(oldpwd, cmd));
+		return (ft_strdup(path));
 	}
-	else
-		path = args[1];
-	return (path);
+	return (expand_tilde(args[1], env));
 }
 
 int	ft_cd(char **args, t_env **env, t_cmd *cmd)
@@ -60,7 +81,6 @@ int	ft_cd(char **args, t_env **env, t_cmd *cmd)
 		free(oldpwd);
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(path, 2);
-		cmd = NULL;
 		ft_putstr_fd(": No such file or directory\n", 2);
 		if (is_path_allocated)
 			free(path);
