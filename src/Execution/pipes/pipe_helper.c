@@ -1,0 +1,63 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_helper.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/20 19:08:12 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/20 19:13:27 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../includes/minishell.h"
+
+void	wait_for_children(t_cmd *cmd, pid_t *pids, int cmd_count)
+{
+	int	status;
+	int	i;
+
+	i = 0;
+	while (i < cmd_count)
+	{
+		if (waitpid(pids[i], &status, 0) == -1)
+			break ;
+		if (i == cmd_count - 1)
+		{
+			if (WIFEXITED(status))
+				cmd->ctx->exit.exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				cmd->ctx->exit.exit_status = 128 + WTERMSIG(status);
+		}
+		i++;
+	}
+}
+
+void	fork_and_execute(t_cmd *cmd, pid_t *pids, t_pipeline *ctx)
+{
+	int		i;
+	t_cmd	*current;
+
+	current = cmd;
+	while (current)
+	{
+		prepare_heredocs(current, ctx->env_array);
+		current = current->next;
+	}
+	current = cmd;
+	i = -1;
+	while (current && i++ < ctx->cmd_count)
+	{
+		pids[i] = fork();
+		if (pids[i] == -1)
+		{
+			perror("minishell: fork");
+			cmd->ctx->exit.exit_status = 1;
+			break ;
+		}
+		else if (pids[i] == 0)
+			execute_pipe_child(current, i, ctx);
+		close_parent_pipes(ctx->pipes, i, ctx->cmd_count);
+		current = current->next;
+	}
+}

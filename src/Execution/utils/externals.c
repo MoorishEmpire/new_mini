@@ -3,7 +3,7 @@
 static void handle_child(t_cmd *cmd, char *path, char **envp)
 {
     signal_init_child();
-    if (apply_redirections(cmd, envp) == -1)
+    if (prepare_heredocs(cmd,envp) == -1 || apply_redirections(cmd, envp) == -1)
     {
         cleanup_resources(path, envp);
         exit(1);

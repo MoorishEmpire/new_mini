@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 01:44:22 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:17:01 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ char							*get_next_line(int fd);
 int								handle_heredoc(char *delimiter, char **env,
 									t_cmd *cmd, int i);
 int								apply_redirections(t_cmd *cmd, char **env);
+int	prepare_heredocs(t_cmd *cmd, char **env);
 
 // the main
 char							*get_input(void);
