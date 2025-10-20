@@ -60,9 +60,7 @@ void	wait_for_children(t_cmd *cmd, pid_t *pids, int cmd_count)
 	{
 		if (waitpid(pids[i], &status, 0) == -1)
 		{
-			perror("minishell: waitpid");
-			i++;
-			continue ;
+			break;
 		}
 		if (i == cmd_count - 1)
 		{
