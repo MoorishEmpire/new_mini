@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 19:17:15 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:04:03 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes_bonus/minishell_bonus.h"
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -21,8 +21,7 @@ static void	exec_builtin_cmd(t_cmd *cmd, t_env **env_list, char **env_array,
 		int saved_io[2])
 {
 	signal_init_exec();
-	if (prepare_heredocs(cmd, env_array) == -1 || apply_redirections(cmd,
-			env_array) == -1)
+	if (prepare_heredocs(cmd,env_array) == -1 || apply_redirections(cmd, env_array) == -1)
 	{
 		signal_init_interactive();
 		perror("redirection");

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_misc.c                                        :+:      :+:    :+:   */
+/*   main_misc_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:47 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:22:17 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 22:56:31 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../includes_bonus/minishell_bonus.h"
 
 int	check_unclosed_quotes(const char *line)
 {
@@ -41,11 +41,13 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 	p.tail = NULL;
 	p.output = NULL;
 	p.expand = NULL;
+	p.wild = NULL;
 	p.strip = NULL;
 	p.cmd = NULL;
 	p.output = tokenizer(&p.head, &p.tail, input);
 	p.expand = expanding_it(p.output, env, ctx);
-	p.strip = stripper(p.expand);
+	p.wild = handel_wild_card(p.expand);
+	p.strip = stripper(p.wild);
 	p.cmd = build_cmd_list(p.strip);
 	temp = p.cmd;
 	while (temp)
@@ -53,7 +55,7 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 		temp->ctx = ctx;
 		temp = temp->next;
 	}
-	free_token_lists(&p.output, &p.expand, &p.strip);
+	free_token_lists(&p.output, &p.expand, &p.wild, &p.strip);
 	return (p.cmd);
 }
 

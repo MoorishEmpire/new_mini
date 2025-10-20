@@ -1,5 +1,5 @@
-#ifndef STRUCTURES_H
-# define STRUCTURES_H
+#ifndef STRUCTURES_BONUS_H
+# define STRUCTURES_BONUS_H
 
 typedef enum
 {
@@ -79,6 +79,7 @@ typedef struct s_process
 	t_token			*tail;
 	t_token			*output;
 	t_token			*expand;
+	t_token			*wild;
 	t_token			*strip;
 	t_cmd			*cmd;
 }					t_process;

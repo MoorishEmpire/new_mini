@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:11:36 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:15:35 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDES_H
-# define INCLUDES_H
+#ifndef MINISHELLA_BONUS_H
+# define MINISHELLA_BONUS_H
 
-# include "../src/Parsing/utils/libft/libft.h"
-# include "./builtins.h"
-# include "structures.h"
+# include "../src/Parsing_bonus/utils_bonus/libft/libft.h"
+# include "builtins_bonus.h"
+# include "structures_bonus.h"
 # include <dirent.h>
 # include <errno.h>
 # include <readline/history.h>
@@ -215,13 +215,14 @@ char							*get_next_line(int fd);
 int								handle_heredoc(char *delimiter, char **env,
 									t_cmd *cmd, int i);
 int								apply_redirections(t_cmd *cmd, char **env);
-int								prepare_heredocs(t_cmd *cmd, char **env);
+int	prepare_heredocs(t_cmd *cmd, char **env);
 
 // the main
 char							*get_input(void);
 void							init_context(t_ctx *ctx);
-void							free_token_lists(t_token **o, t_token **x,
-									t_token **s);
+void							free_token_lists(t_token **output,
+									t_token **expand, t_token **wild,
+									t_token **strip);
 t_cmd							*process_line(char *input, char **env,
 									t_ctx *ctx);
 int								check_unclosed_quotes(const char *line);

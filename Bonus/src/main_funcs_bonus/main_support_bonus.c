@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_support.c                                     :+:      :+:    :+:   */
+/*   main_support_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:40 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:09:55 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 22:56:27 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../includes_bonus/minishell_bonus.h"
 
 void	clear_tokens(t_token **head)
 {
@@ -55,12 +55,13 @@ static void	free_str_array(char **arr)
 	free(arr);
 }
 
-void	free_token_lists(t_token **o, t_token **x, t_token **s)
+void	free_token_lists(t_token **o, t_token **x, t_token **w, t_token **s)
 {
 	if (o)
 		clear_tokens(o);
 	if (x)
 		clear_tokens(x);
+	clear_tokens(w);
 	clear_tokens(s);
 }
 
