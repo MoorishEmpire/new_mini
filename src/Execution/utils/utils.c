@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:00:00 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/01/20 10:00:00 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:35:51 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,3 @@ int	is_builtin(char *cmd)
 			ft_strcmp(cmd, "env") == 0 ||
 			ft_strcmp(cmd, "exit") == 0);
 }
-
