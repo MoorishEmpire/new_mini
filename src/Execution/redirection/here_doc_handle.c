@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:58:03 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/16 22:44:25 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:26:32 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*process_lines(char *line, char **env, t_cmd *cmd, int i)
 	char	*content;
 
 	if (cmd->quoted_file[i] == 0)
-		content = replace_in_arg(line, env,cmd->ctx);
+		content = replace_in_arg(line, env, cmd->ctx);
 	else
 		content = ft_strdup(line);
 	return (content);
@@ -76,16 +76,10 @@ int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 	signal_init_exec();
 	pid = fork();
 	if (pid == -1)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		signal_init_interactive();
-		return (-1);
-	}
+		return (close(fd[0]), close(fd[1]), signal_init_interactive(), -1);
 	if (pid == 0)
 	{
-		close(fd[0]);
-		signal_init_heredoc();
+		(close(fd[0]), signal_init_heredoc());
 		del = strip_str(delimiter);
 		h.delimiter = del;
 		h.env = env;
@@ -93,5 +87,6 @@ int	handle_heredoc(char *delimiter, char **env, t_cmd *cmd, int i)
 		h.i = i;
 		(heredoc_child_loop(fd[1], &h), close(fd[1]), free(del), exit(0));
 	}
-	return (close(fd[1]), waitpid(pid, NULL, 0),signal_init_interactive(), fd[0]);
+	return (close(fd[1]), waitpid(pid, NULL, 0), signal_init_interactive(),
+		fd[0]);
 }

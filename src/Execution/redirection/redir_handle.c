@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:13:58 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/19 21:16:20 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:26:56 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	handle_heredocs(t_cmd *cmd, char **env, int *last_fd)
 static int	handle_redirections(t_cmd *cmd)
 {
 	int	i;
+
 	i = 0;
 	while (cmd->redirect[i])
 	{

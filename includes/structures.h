@@ -1,5 +1,5 @@
 #ifndef STRUCTURES_H
-#define STRUCTURES_H
+# define STRUCTURES_H
 
 typedef enum
 {
@@ -34,7 +34,7 @@ typedef struct s_env
 	char			*var;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}					t_env;
 
 typedef struct s_exit
 {
@@ -86,17 +86,25 @@ typedef struct s_process
 
 typedef struct s_quote_ctx
 {
-	int	i;
-	int	in_q;
-	char	type;
-	int	len;
-}	t_quote_ctx;
+	int				i;
+	int				in_q;
+	char			type;
+	int				len;
+}					t_quote_ctx;
 
 typedef struct s_pipes_ctx
 {
-	int		cmd_count;
-	t_env	**env_list;
-	char	**env_array;
+	int				cmd_count;
+	t_env			**env_list;
+	char			**env_array;
 }					t_pipes_ctx;
+
+typedef struct s_pipeline
+{
+	int				**pipes;
+	int				cmd_count;
+	t_env			**env_list;
+	char			**env_array;
+}					t_pipeline;
 
 #endif

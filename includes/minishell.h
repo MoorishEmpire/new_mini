@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 00:13:23 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:44:22 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,13 +253,12 @@ void							exec_builtin_in_pipe(t_cmd *cmd,
 									t_env **env_list);
 void							exec_external_in_pipe(t_cmd *cmd, char **envp,
 									t_env *env_mlist);
-void							execute_pipe_child(t_cmd *cmd, int **pipes,
-									int idx, int total, t_env **env_list,
-									char **envp);
+void							execute_pipe_child(t_cmd *cmd, int idx,
+									t_pipeline *ctx);
 void							wait_for_children(t_cmd *cmd, pid_t *pids,
 									int cmd_count);
-void							fork_and_execute(t_cmd *cmd, int **pipes,
-									pid_t *pids, t_pipes_ctx *pipe_ctx);
+void							fork_and_execute(t_cmd *cmd, pid_t *pids,
+									t_pipeline *ctx);
 void							close_pipes(int **pipes, int pipe_count);
 void							setup_pipe_redirections(int **pipes, int idx,
 									int total, int has_output_redir);
