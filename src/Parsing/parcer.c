@@ -75,7 +75,7 @@ t_cmd	*build_cmd_list(t_token *token, t_ctx *ctx)
 	head = NULL;
 	cmd = NULL;
 	tail = NULL;
-	if (pipe_err(&token,ctx))
+	if (pipe_err(&token, ctx))
 		return (NULL);
 	while (token)
 	{

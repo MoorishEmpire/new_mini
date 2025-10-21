@@ -48,7 +48,7 @@ int	redir_check(t_token *token, t_ctx *ctx)
 {
 	if (!token)
 		return (print_redir_error(ctx,
-			"bash: syntax error near unexpected token `newline'\n"));
+				"bash: syntax error near unexpected token `newline'\n"));
 	if (is_token_redirect(token) || is_it_opp(token))
 	{
 		printf("syntax error near unexpected token `%s'\n", token->value);

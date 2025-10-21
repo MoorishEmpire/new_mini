@@ -17,8 +17,8 @@
 
 volatile sig_atomic_t	g_signal_received = 0;
 
-
-static void	execute_with_redirect(t_cmd *cmd, t_env **env_list, char **env_array)
+static void	execute_with_redirect(t_cmd *cmd, t_env **env_list,
+			char **env_array)
 {
 	int	saved_io[2];
 
@@ -49,7 +49,6 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 		return ;
 	execute_with_redirect(cmd, env_list, env_array);
 }
-
 
 static void	process_input_line(char *input, char **env_array, t_env **env_list,
 		t_ctx *ctx)

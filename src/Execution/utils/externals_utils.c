@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   externals_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-most <ael-most@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 01:19:34 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 01:19:35 by moel-idr         ###   ########.fr       */
+/*   Created: 2025/10/21 19:44:10 by ael-most          #+#    #+#             */
+/*   Updated: 2025/10/21 19:44:12 by ael-most         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_child_exit(int status, t_cmd *cmd)
 	{
 		signal = WTERMSIG(status);
 		cmd->ctx->exit.exit_status = 128 + signal;
-		if (signal == SIGQUIT)	
+		if (signal == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
 		else if (signal == SIGINT)
 			ft_putstr_fd("\n", 2);

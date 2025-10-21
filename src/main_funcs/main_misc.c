@@ -46,7 +46,7 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 	p.output = tokenizer(&p.head, &p.tail, input);
 	p.expand = expanding_it(p.output, env, ctx);
 	p.strip = stripper(p.expand);
-	p.cmd = build_cmd_list(p.strip,ctx);
+	p.cmd = build_cmd_list(p.strip, ctx);
 	temp = p.cmd;
 	while (temp)
 	{
