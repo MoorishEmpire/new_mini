@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 17:02:42 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:38:43 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void							append_list(t_token **head, t_token *new_node);
 
 char							*strip_token(char *value);
 
-int								pipe_err(t_token **list,t_ctx *ctx);
+int								pipe_err(t_token **list, t_ctx *ctx);
 int								is_token_redirect(t_token *R);
 int								is_it_doubled(t_token *dollar);
 t_token							*stripper(t_token *xpnd);
@@ -87,10 +87,15 @@ t_token							*tokenizer(t_token **head, t_token **tail,
 t_cmd							*store_cmds(t_token *token, t_ctx *ctx);
 t_token							*expand_variables(t_token *tokens, char **envp,
 									t_ctx *ctx);
-t_cmd							*populate_cmd_data(t_cmd *cmd, t_token *token,t_ctx *ctx);
-t_cmd							*build_cmd_list(t_token *token,t_ctx *ctx);
+t_cmd							*populate_cmd_data(t_cmd *cmd, t_token *token,
+									t_ctx *ctx);
+t_cmd							*build_cmd_list(t_token *token, t_ctx *ctx);
 
 int								is_it_singled(t_token *dollar);
+void							exec_builtin_cmd(t_cmd *cmd, t_env **env_list,
+									char **env_array, int saved_io[2]);
+int								handle_redirect_only(t_cmd *cmd,
+									char **env_array);
 
 // void add_arg(t_trs *node, char *value);
 // int is_operator(t_token *node);
@@ -117,7 +122,7 @@ int								is_token_redirect(t_token *R);
 int								is_it_opp(t_token *op);
 int								is_token_breaker(char c);
 int								is_empty_string(t_token *token);
-int	redir_check(t_token *token, t_ctx *ctx);
+int								redir_check(t_token *token, t_ctx *ctx);
 
 char							*replace_in_quotes(char *str, char **env,
 									t_ctx *ctx);
