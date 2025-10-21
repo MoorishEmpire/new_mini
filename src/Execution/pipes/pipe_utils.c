@@ -6,12 +6,7 @@ void	exec_external_in_pipe(t_cmd *cmd, char **envp, t_env *env_list)
 
 	path = get_cmd_path(cmd->argv[0], env_list);
 	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
-	}
 	execve(path, cmd->argv, envp);
 	perror("minishell: execve");
 	free(path);
