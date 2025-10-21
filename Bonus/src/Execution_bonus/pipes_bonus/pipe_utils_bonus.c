@@ -55,7 +55,8 @@ void	setup_pipes(int idx, t_pipeline *ctx, int has_out_redir,
 {
 	int i;
 
-	if (idx > 0 && !has_in_redir)
+	(void)has_in_redir;
+	if (idx > 0)
 		dup2(ctx->pipes[idx - 1][0], STDIN_FILENO);
 	if (idx < ctx->cmd_count - 1 && !has_out_redir)
 		dup2(ctx->pipes[idx][1], STDOUT_FILENO);

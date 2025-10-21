@@ -1,4 +1,5 @@
 #include "../../../includes_bonus/minishell_bonus.h"
+
 static void	delete_env_var(t_env **env, char *var)
 {
 	t_env	*current;

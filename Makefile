@@ -33,7 +33,7 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 
 # Bonus files
 b_files = Bonus/src/Parsing_bonus/token_bonus \
-          Bonus/src/main_bonus \
+          Bonus/src/main_bonus\
           Bonus/src/Parsing_bonus/parcer_bonus \
           Bonus/src/Parsing_bonus/error_checks_bonus/pipe_err_check_bonus \
           Bonus/src/Parsing_bonus/error_checks_bonus/redirection_err_bonus \

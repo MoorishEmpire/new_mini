@@ -3,6 +3,7 @@
 static void	run_builtin(t_cmd *cmd, t_env **env)
 {
 	char	*name;
+
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return ;
 	name = cmd->argv[0];

@@ -53,7 +53,7 @@ int	has_input_redirection(t_cmd *cmd)
 void	setup_pipes(int idx, t_pipeline *ctx, int has_out_redir,
 		int has_in_redir)
 {
-	int i;
+	int	i;
 
 	(void)has_in_redir;
 	if (idx > 0)
