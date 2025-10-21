@@ -52,10 +52,19 @@ int	is_valid_path(t_cmd *cmd, char *path)
 
 void	handle_child_exit(int status, t_cmd *cmd)
 {
+	int	signal;
+
 	if (WIFEXITED(status))
 		cmd->ctx->exit.exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		cmd->ctx->exit.exit_status = 128 + WTERMSIG(status);
+	{
+		signal = WTERMSIG(status);
+		cmd->ctx->exit.exit_status = 128 + signal;
+		if (signal == SIGQUIT)	
+			ft_putstr_fd("Quit: 3\n", 2);
+		else if (signal == SIGINT)
+			ft_putstr_fd("\n", 2);
+	}
 }
 
 void	cleanup_resources(char *path, char **envp)

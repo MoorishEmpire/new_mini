@@ -106,6 +106,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	env_list = env_to_list(env);
 	increment_shlvl(&env_list);
+	update_env_var(&env_list, "OLDPWD", NULL);
 	handle_input_loop(&env_list, env);
 	clear_history();
 	free_env_list(env_list);

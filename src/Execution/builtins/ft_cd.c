@@ -23,16 +23,29 @@ static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 }
 
 static int	cd_error(char *path, char *oldpwd, int is_path_allocated,
-		t_cmd *cmd)
+	t_cmd *cmd)
 {
-	free(oldpwd);
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(path, 2);
+free(oldpwd);
+ft_putstr_fd("minishell: cd: ", 2);
+ft_putstr_fd(path, 2);
+
+if (errno == ENOENT)
 	ft_putstr_fd(": No such file or directory\n", 2);
-	if (is_path_allocated)
-		free(path);
-	cmd->ctx->exit.exit_status = 1;
-	return (1);
+else if (errno == ENOTDIR)
+	ft_putstr_fd(": Not a directory\n", 2);
+else if (errno == EACCES)
+	ft_putstr_fd(": Permission denied\n", 2);
+else if (errno == ELOOP)
+	ft_putstr_fd(": Too many symbolic links encountered\n", 2);
+else if (errno == ENAMETOOLONG)
+	ft_putstr_fd(": File name too long\n", 2);
+else if (errno == ENFILE)
+	ft_putstr_fd(": File table overflow\n", 2);
+
+if (is_path_allocated)
+	free(path);
+cmd->ctx->exit.exit_status = 1;
+return (1);
 }
 
 static void	update_cd_env(t_env **env, char *oldpwd, char *newpwd,
