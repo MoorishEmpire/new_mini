@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 16:57:20 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:02:42 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void							append_list(t_token **head, t_token *new_node);
 
 char							*strip_token(char *value);
 
-int								pipe_err(t_token **list);
+int								pipe_err(t_token **list,t_ctx *ctx);
 int								is_token_redirect(t_token *R);
 int								is_it_doubled(t_token *dollar);
 t_token							*stripper(t_token *xpnd);

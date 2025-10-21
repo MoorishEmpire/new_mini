@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 16:57:07 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:02:31 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_cmd	*build_cmd_list(t_token *token, t_ctx *ctx)
 	head = NULL;
 	cmd = NULL;
 	tail = NULL;
-	if (pipe_err(&token))
+	if (pipe_err(&token,ctx))
 		return (NULL);
 	while (token)
 	{
