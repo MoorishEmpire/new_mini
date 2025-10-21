@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 17:38:57 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:06:41 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	execute_with_redirect(t_cmd *cmd, t_env **env_list, char **env_array
 		if (prepare_heredocs(cmd, env_array) == -1)
 			exit(1);
 		execute_externals(cmd, env_list);
+		close(saved_io[0]);
+		close(saved_io[1]);
 	}
 }
 
