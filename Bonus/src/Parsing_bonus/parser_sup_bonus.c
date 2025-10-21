@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 22:18:11 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:57:11 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:30:08 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_token_breaker(char c)
 {
-	return (c == ' ' || c == '|' || c == '<' || c == '>');
+	return (c == ' ' || c == '|' || c == '<' || c == '>' || c == '\t');
 }
 
 void	free_argv_on_error(t_cmd *cmd, int *i)
