@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:47 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:22:17 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:53:29 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 	p.output = tokenizer(&p.head, &p.tail, input);
 	p.expand = expanding_it(p.output, env, ctx);
 	p.strip = stripper(p.expand);
-	p.cmd = build_cmd_list(p.strip);
+	p.cmd = build_cmd_list(p.strip,ctx);
 	temp = p.cmd;
 	while (temp)
 	{
