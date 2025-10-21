@@ -6,11 +6,11 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:00:00 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:59:52 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 01:03:56 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "#include "../../../includes_bonus/minishell_bonus.h""
+#include "../../../includes_bonus/minishell_bonus.h"
 
 char	*get_env(t_env *env, char *var)
 {

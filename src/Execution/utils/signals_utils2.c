@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals_utils2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 01:19:42 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 01:23:34 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 void	handel_fork_error(t_cmd *cmd)
@@ -30,6 +42,7 @@ int	check_if_directory(const char *path, t_cmd *cmd)
 	}
 	return (0);
 }
+
 int	check_permission(const char *path, t_cmd *cmd)
 {
 	if (access(path, F_OK) == 0 && access(path, X_OK) == -1)

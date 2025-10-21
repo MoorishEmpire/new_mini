@@ -74,10 +74,10 @@ void	execute_pipe_child(t_cmd *cmd, int idx, t_pipeline *ctx)
 	int	has_out_redir;
 
 	signal_init_child();
-	if (apply_redirections(cmd, ctx->env_array) == -1)
-		exit(1);
 	has_in_redir = has_input_redirection(cmd);
 	has_out_redir = has_output_redirection(cmd);
+	if (apply_redirections(cmd, ctx->env_array) == -1)
+		exit(1);
 	setup_pipes(idx, ctx, has_out_redir, has_in_redir);
 	if (is_builtin(cmd->argv[0]))
 		exec_builtin_in_pipe(cmd, ctx->env_list);

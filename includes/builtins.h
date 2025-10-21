@@ -27,12 +27,10 @@ t_env		*env_to_list(char **env);
 void		free_env_list(t_env *env);
 void		update_env_var(t_env **env, char *var, char *value);
 t_env		*copy_env_list(t_env *env);
-void		lstenv_add_back(t_env **env, t_env *new_node);
 
 // Utility functions
 int			is_valid_key(char *key);
 //void		apply_redirection(t_cmd *cmd);
-int			is_builtin(char *cmd);
 char		*find_command_path(char *cmd);
 char		**env_to_array(t_env *env);
 void		sort_env_list(t_env **env);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 01:19:27 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 01:21:56 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 void	free_env_list(t_env *env)
@@ -27,12 +39,12 @@ t_env	*copy_env_list(t_env *env)
 	{
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
-		{
-			free_env_list(head);
-			return (NULL);
-		}
+			return (free_env_list(head), NULL);
 		new_node->var = ft_strdup(env->var);
-		new_node->value = env->value ? ft_strdup(env->value) : NULL;
+		if (env->value)
+			new_node->value = ft_strdup(env->value);
+		else
+			new_node->value = NULL;
 		new_node->next = NULL;
 		if (!head)
 			head = new_node;
@@ -44,68 +56,44 @@ t_env	*copy_env_list(t_env *env)
 	return (head);
 }
 
+t_env	*create_env_node(char *env_str)
+{
+	t_env	*node;
+	char	*eq;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	eq = ft_strchr(env_str, '=');
+	if (eq)
+	{
+		node->var = ft_substr(env_str, 0, eq - env_str);
+		node->value = ft_strdup(eq + 1);
+	}
+	else
+	{
+		node->var = ft_strdup(env_str);
+		node->value = NULL;
+	}
+	node->next = NULL;
+	return (node);
+}
+
 t_env	*env_to_list(char **env)
 {
-	t_env	*new_node;
 	t_env	*head;
-	char	*eq;
+	t_env	*new_node;
 
 	head = NULL;
 	while (*env)
 	{
-		new_node = malloc(sizeof(t_env));
+		new_node = create_env_node(*env);
 		if (!new_node)
 			return (NULL);
-		eq = ft_strchr(*env, '=');
-		if (eq)
-		{
-			new_node->var = ft_substr(*env, 0, eq - *env);
-			new_node->value = ft_strdup(eq + 1);
-		}
-		else
-		{
-			new_node->var = ft_strdup(*env);
-			new_node->value = NULL;
-		}
-		new_node->next = NULL;
 		lstenv_add_back(&head, new_node);
 		env++;
 	}
 	return (head);
-}
-
-char	**list_to_env(t_env *list)
-{
-	char	**env;
-	t_env	*tmp;
-	char	*entry;
-	int		count;
-	int		i;
-
-	count = 0;
-	tmp = list;
-	while (tmp)
-	{
-		if (tmp->var)
-			count++;
-		tmp = tmp->next;
-	}
-	env = malloc(sizeof(char *) * (count + 1));
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (list)
-	{
-		if (list->var)
-		{
-			entry = ft_strjoin(list->var, "=");
-			env[i++] = ft_strjoin(entry, list->value ? list->value : "");
-			free(entry);
-		}
-		list = list->next;
-	}
-	env[count] = NULL;
-	return (env);
 }
 
 void	update_env_var(t_env **env, char *var, char *value)
@@ -129,7 +117,10 @@ void	update_env_var(t_env **env, char *var, char *value)
 	}
 	new_node = malloc(sizeof(t_env));
 	new_node->var = ft_strdup(var);
-	new_node->value = value ? ft_strdup(value) : NULL;
+	if (value)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
 	new_node->next = NULL;
 	lstenv_add_back(env, new_node);
 }

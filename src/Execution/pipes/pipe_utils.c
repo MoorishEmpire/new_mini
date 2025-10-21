@@ -55,7 +55,8 @@ void	setup_pipes(int idx, t_pipeline *ctx, int has_out_redir,
 {
 	int i;
 
-	if (idx > 0 && !has_in_redir)
+	(void)has_in_redir;
+	if (idx > 0)
 		dup2(ctx->pipes[idx - 1][0], STDIN_FILENO);
 	if (idx < ctx->cmd_count - 1 && !has_out_redir)
 		dup2(ctx->pipes[idx][1], STDOUT_FILENO);
@@ -74,10 +75,10 @@ void	execute_pipe_child(t_cmd *cmd, int idx, t_pipeline *ctx)
 	int	has_out_redir;
 
 	signal_init_child();
-	if (apply_redirections(cmd, ctx->env_array) == -1)
-		exit(1);
 	has_in_redir = has_input_redirection(cmd);
 	has_out_redir = has_output_redirection(cmd);
+	if (apply_redirections(cmd, ctx->env_array) == -1)
+		exit(1);
 	setup_pipes(idx, ctx, has_out_redir, has_in_redir);
 	if (is_builtin(cmd->argv[0]))
 		exec_builtin_in_pipe(cmd, ctx->env_list);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_helpers.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 01:19:23 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 01:22:13 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 char	*get_env(t_env *env, char *var)
@@ -13,89 +25,85 @@ char	*get_env(t_env *env, char *var)
 	}
 	return (NULL);
 }
-void    increment_shlvl(t_env **env)
+
+void	increment_shlvl(t_env **env)
 {
-    char    *shlvl_str;
-    int     shlvl;
-    char    *new_shlvl;
+	char	*shlvl_str;
+	int		shlvl;
+	char	*new_shlvl;
 
-    shlvl_str = get_env(*env, "SHLVL");
-    if (!shlvl_str)
-        shlvl = 0;
-    else
-        shlvl = ft_atoi(shlvl_str);
-
-    if (shlvl < 0)
-        shlvl = 0;
-    else if (shlvl >= 999)
-    {
-        ft_putstr_fd("minishell: warning: shell level (1000) too high, resetting to 1\n", 2);
-        shlvl = 0;
-    }
-    shlvl++;
-    new_shlvl = ft_itoa(shlvl);
-    if (!new_shlvl)
-        return;
-    update_env_var(env, "SHLVL", new_shlvl);
-    free(new_shlvl);
-    if (shlvl_str)
-        free(shlvl_str);
+	shlvl_str = get_env(*env, "SHLVL");
+	if (!shlvl_str)
+		shlvl = 0;
+	else
+		shlvl = ft_atoi(shlvl_str);
+	if (shlvl < 0)
+		shlvl = 0;
+	else if (shlvl >= 999)
+	{
+		ft_putstr_fd("minishell: warning: shell level ", 2);
+		ft_putstr_fd("(1000) too high, resetting to 1\n", 2);
+		shlvl = 0;
+	}
+	shlvl++;
+	new_shlvl = ft_itoa(shlvl);
+	if (!new_shlvl)
+		return ;
+	update_env_var(env, "SHLVL", new_shlvl);
+	free(new_shlvl);
+	if (shlvl_str)
+		free(shlvl_str);
 }
 
-void    lstenv_add_back(t_env **env, t_env *new_node)
+void	lstenv_add_back(t_env **env, t_env *new_node)
 {
-    t_env   *tmp;
+	t_env	*tmp;
 
-    if (!env || !new_node)
-        return;
-
-    if (!*env)
-    {
-        *env = new_node;
-        return;
-
-    }
-    tmp = *env;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new_node;
-
+	if (!env || !new_node)
+		return ;
+	if (!*env)
+	{
+		*env = new_node;
+		return ;
+	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
 }
 
-static void swap_env_nodes(t_env *node1, t_env *node2)
+static void	swap_env_nodes(t_env *node1, t_env *node2)
 {
-    char *temp_var;
-    char *temp_value;
+	char	*temp_var;
+	char	*temp_value;
 
-    temp_var = node1->var;
-    node1->var = node2->var;
-    node2->var = temp_var;
-
-    temp_value = node1->value;
-    node1->value = node2->value;
-    node2->value = temp_value;
+	temp_var = node1->var;
+	node1->var = node2->var;
+	node2->var = temp_var;
+	temp_value = node1->value;
+	node1->value = node2->value;
+	node2->value = temp_value;
 }
 
-void sort_env_list(t_env **env)
+void	sort_env_list(t_env **env)
 {
-    t_env   *i;
-    t_env   *j;
+	t_env	*i;
+	t_env	*j;
 
-    if (!env || !*env)  // Add this check
-        return;
-    
-    i = *env;
-    while (i && i->next)  // Add bounds check here
-    {
-        j = i->next;
-        while (j)
-        {
-            if (i->var && j->var && ft_strcmp(i->var, j->var) > 0)
-            {
-                swap_env_nodes(i, j);
-            }
-            j = j->next;
-        }
-        i = i->next;
-    }
+	if (!env || !*env)
+		return ;
+	i = *env;
+	while (i && i->next)
+	{
+		j = i->next;
+		while (j)
+		{
+			if (i->var && j->var && ft_strcmp(i->var, j->var) > 0)
+			{
+				swap_env_nodes(i, j);
+			}
+			j = j->next;
+		}
+		i = i->next;
+	}
 }

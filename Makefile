@@ -24,7 +24,7 @@ files = 	src/Parsing/token src/main src/Parsing/parcer\
 			src/Execution/redirection/get_next_line src/Execution/redirection/here_doc_handle\
 			src/Execution/redirection/redir_handle src/main_funcs/main_misc\
 			src/main_funcs/main_support src/main_funcs/main_test src/main_funcs/main_exec\
-			src/Parsing/var_expansion/minette\
+			src/Parsing/var_expansion/minette src/Execution/utils/exec_sup\
 			src/Execution/signals/signals src/Execution/signals/signal_helper src/Execution/signals/signal_helper1\
 			src/Execution/utils/externals src/Execution/utils/externals_helper\
 			src/Execution/pipes/pipe src/Execution/pipes/pipe_utils src/Execution/pipes/pipe_utils2\
