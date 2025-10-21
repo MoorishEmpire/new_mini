@@ -6,13 +6,13 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 23:05:37 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:59:57 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../includes_bonus/minishell_bonus.h"
 
-t_token	*create_token(NodeType type, char *value, char *var_nam)
+t_token	*create_token(t_nodetype type, char *value, char *var_nam)
 {
 	t_token	*new_token;
 

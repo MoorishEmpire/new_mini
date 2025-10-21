@@ -1,30 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 21:07:06 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 21:07:07 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-typedef enum
+typedef enum s_node
 {
-	COMMAND, // done.          0
-	CMD_ARG, // done            1
+	COMMAND,
+	CMD_ARG,
 	OR,
 	AND,
-	SINGL_QU,  //               4
-	DOUBLE_QU, //				5
-	PIPE,      // done               6               8
-	REDIR_IN,  // done           9
-	REDIR_OUT, // done          10
-	APPEND,    // done             11
-	HERE_DOC,  // done           12
-	FILE_NAME, // tbd
+	SINGL_QU,
+	DOUBLE_QU,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HERE_DOC,
+	FILE_NAME,
 	VAR,
 	QUOTED_VAR,
 	CONCATENATED_VAR,
-}					NodeType;
+}					t_nodetype;
 
 typedef struct s_token
 {
 	char			*value;
 	char			*var_nam;
-	NodeType		type;
+	t_nodetype		type;
 	int				quote_flag;
 	struct s_token	*next;
 }					t_token;

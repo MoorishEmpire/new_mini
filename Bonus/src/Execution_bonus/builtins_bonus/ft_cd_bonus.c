@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 19:36:03 by ael-most          #+#    #+#             */
+/*   Updated: 2025/10/21 20:23:11 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../../includes_bonus/minishell_bonus.h"
 
@@ -23,12 +34,23 @@ static char	*get_cd_path(char **args, t_env **env, char *oldpwd, t_cmd *cmd)
 }
 
 static int	cd_error(char *path, char *oldpwd, int is_path_allocated,
-		t_cmd *cmd)
+	t_cmd *cmd)
 {
 	free(oldpwd);
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
+	if (errno == ENOENT)
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else if (errno == ENOTDIR)
+		ft_putstr_fd(": Not a directory\n", 2);
+	else if (errno == EACCES)
+		ft_putstr_fd(": Permission denied\n", 2);
+	else if (errno == ELOOP)
+		ft_putstr_fd(": Too many symbolic links encountered\n", 2);
+	else if (errno == ENAMETOOLONG)
+		ft_putstr_fd(": File name too long\n", 2);
+	else if (errno == ENFILE)
+		ft_putstr_fd(": File table overflow\n", 2);
 	if (is_path_allocated)
 		free(path);
 	cmd->ctx->exit.exit_status = 1;

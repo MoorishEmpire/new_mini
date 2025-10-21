@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 20:14:55 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/14 18:34:52 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:59:57 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	matched_count(char *token)
 	return (count);
 }
 
-char	**expand_wildcard(char *token, NodeType type)
+char	**expand_wildcard(char *token, t_nodetype type)
 {
 	char	**matches;
 	int		total;

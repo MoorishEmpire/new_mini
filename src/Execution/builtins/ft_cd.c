@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-most <ael-most@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 19:36:09 by ael-most          #+#    #+#             */
-/*   Updated: 2025/10/21 19:36:14 by ael-most         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:57:40 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	cd_error(char *path, char *oldpwd, int is_path_allocated,
 	else if (errno == ENFILE)
 		ft_putstr_fd(": File table overflow\n", 2);
 	if (is_path_allocated)
-		fbootstraptransfer(path);
+		free(path);
 	cmd->ctx->exit.exit_status = 1;
 	return (1);
 }

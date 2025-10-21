@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:32:47 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:56:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:13:13 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_cmd	*process_line(char *input, char **env, t_ctx *ctx)
 	p.expand = expanding_it(p.output, env, ctx);
 	p.wild = handel_wild_card(p.expand);
 	p.strip = stripper(p.wild);
-	p.cmd = build_cmd_list(p.strip);
+	p.cmd = build_cmd_list(p.strip, ctx);
 	temp = p.cmd;
 	while (temp)
 	{

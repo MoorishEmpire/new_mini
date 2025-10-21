@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 23:04:03 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:40:45 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,37 @@
 
 volatile sig_atomic_t	g_signal_received = 0;
 
-static void	exec_builtin_cmd(t_cmd *cmd, t_env **env_list, char **env_array,
-		int saved_io[2])
+static void	execute_with_redirect(t_cmd *cmd, t_env **env_list,
+			char **env_array)
 {
-	signal_init_exec();
-	if (prepare_heredocs(cmd,env_array) == -1 || apply_redirections(cmd, env_array) == -1)
+	int	saved_io[2];
+
+	saved_io[0] = dup(STDIN_FILENO);
+	saved_io[1] = dup(STDOUT_FILENO);
+	if (is_builtin(cmd->argv[0]))
+		exec_builtin_cmd(cmd, env_list, env_array, saved_io);
+	else
 	{
-		signal_init_interactive();
-		perror("redirection");
-		return ;
+		if (prepare_heredocs(cmd, env_array) == -1)
+			exit(1);
+		execute_externals(cmd, env_list);
+		close(saved_io[0]);
+		close(saved_io[1]);
 	}
-	execute_cmd(cmd, env_list);
-	restore_stdio(saved_io[0], saved_io[1]);
-	signal_init_interactive();
 }
 
 void	execute_single_cmd(t_cmd *cmd, t_env **env_list, char **env_array)
 {
-	int	saved_io[2];
-
 	if (cmd->next)
 	{
 		execute_pipeline(cmd, env_list, env_array);
 		return ;
 	}
-	saved_io[0] = dup(STDIN_FILENO);
-	saved_io[1] = dup(STDOUT_FILENO);
+	if (handle_redirect_only(cmd, env_array))
+		return ;
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return ;
-	if (is_builtin(cmd->argv[0]))
-		exec_builtin_cmd(cmd, env_list, env_array, saved_io);
-	else
-		execute_externals(cmd, env_list);
+	execute_with_redirect(cmd, env_list, env_array);
 }
 
 static void	process_input_line(char *input, char **env_array, t_env **env_list,
@@ -106,6 +105,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	env_list = env_to_list(env);
 	increment_shlvl(&env_list);
+	update_env_var(&env_list, "OLDPWD", NULL);
 	handle_input_loop(&env_list, env);
 	clear_history();
 	free_env_list(env_list);

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:58:03 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:55:35 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:28:46 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	heredoc_child_loop(int fd, t_heredoc *h)
 	char	*content;
 	size_t	len;
 
-	write(1, ">", 1);
+	write(1, "> ", 2);
 	line = get_next_line(0);
 	while (line)
 	{
@@ -59,7 +59,7 @@ void	heredoc_child_loop(int fd, t_heredoc *h)
 		ft_putendl_fd(content, fd);
 		free(line);
 		free(content);
-		write(1, ">", 1);
+		write(1, "> ", 2);
 		line = get_next_line(0);
 	}
 }

@@ -6,13 +6,13 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 17:02:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:59:57 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	arg_count(t_token *token, NodeType i)
+int	arg_count(t_token *token, t_nodetype i)
 {
 	int	j;
 
@@ -25,7 +25,7 @@ int	arg_count(t_token *token, NodeType i)
 	return (j);
 }
 
-int	redir_counter(t_token *token, NodeType stop_type)
+int	redir_counter(t_token *token, t_nodetype stop_type)
 {
 	int	count;
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_utils_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 20:46:06 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 20:46:07 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes_bonus/minishell_bonus.h"
 
 void	exec_external_in_pipe(t_cmd *cmd, char **envp, t_env *env_list)
@@ -6,9 +18,7 @@ void	exec_external_in_pipe(t_cmd *cmd, char **envp, t_env *env_list)
 
 	path = get_cmd_path(cmd->argv[0], env_list);
 	if (!path)
-	{
 		exit(127);
-	}
 	execve(path, cmd->argv, envp);
 	perror("minishell: execve");
 	free(path);
@@ -50,7 +60,7 @@ int	has_input_redirection(t_cmd *cmd)
 void	setup_pipes(int idx, t_pipeline *ctx, int has_out_redir,
 		int has_in_redir)
 {
-	int i;
+	int	i;
 
 	(void)has_in_redir;
 	if (idx > 0)

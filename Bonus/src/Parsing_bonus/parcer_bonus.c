@@ -6,13 +6,13 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:45:21 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:57:08 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:59:57 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes_bonus/minishell_bonus.h"
 
-int	arg_count(t_token *token, NodeType i)
+int	arg_count(t_token *token, t_nodetype i)
 {
 	int	j;
 
@@ -25,7 +25,7 @@ int	arg_count(t_token *token, NodeType i)
 	return (j);
 }
 
-int	redir_counter(t_token *token, NodeType stop_type)
+int	redir_counter(t_token *token, t_nodetype stop_type)
 {
 	int	count;
 
@@ -39,7 +39,7 @@ int	redir_counter(t_token *token, NodeType stop_type)
 	return (count);
 }
 
-t_cmd	*store_cmds(t_token *token)
+t_cmd	*store_cmds(t_token *token, t_ctx *ctx)
 {
 	t_cmd	*cmd;
 	int		redir_count;
@@ -57,18 +57,16 @@ t_cmd	*store_cmds(t_token *token)
 	if (!cmd->argv || !cmd->redirect || !cmd->file)
 		return (NULL);
 	cmd->next = NULL;
-	if (!populate_cmd_data(cmd, token))
+	if (!populate_cmd_data(cmd, token, ctx))
 	{
-		free(cmd->file);
-		free(cmd->argv);
-		free(cmd->redirect);
-		free(cmd->quoted_file);
+		(free(cmd->file), free(cmd->argv));
+		(free(cmd->redirect), free(cmd->quoted_file));
 		return (free(cmd), NULL);
 	}
 	return (cmd);
 }
 
-t_cmd	*build_cmd_list(t_token *token)
+t_cmd	*build_cmd_list(t_token *token, t_ctx *ctx)
 {
 	t_cmd	*head;
 	t_cmd	*tail;
@@ -77,11 +75,11 @@ t_cmd	*build_cmd_list(t_token *token)
 	head = NULL;
 	cmd = NULL;
 	tail = NULL;
-	if (pipe_err(&token))
+	if (pipe_err(&token, ctx))
 		return (NULL);
 	while (token)
 	{
-		cmd = store_cmds(token);
+		cmd = store_cmds(token, ctx);
 		if (!cmd)
 			return (NULL);
 		if (!head)

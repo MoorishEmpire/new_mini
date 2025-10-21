@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:08:12 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 22:55:19 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:26:21 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	wait_for_children(t_cmd *cmd, pid_t *pids, int cmd_count)
 {
 	int	status;
 	int	i;
+	int	signal;
 
 	i = 0;
 	while (i < cmd_count)
@@ -27,7 +28,14 @@ void	wait_for_children(t_cmd *cmd, pid_t *pids, int cmd_count)
 			if (WIFEXITED(status))
 				cmd->ctx->exit.exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
+			{
+				signal = WTERMSIG(status);
 				cmd->ctx->exit.exit_status = 128 + WTERMSIG(status);
+				if (signal == SIGQUIT)
+					ft_putstr_fd("Quit: 3\n", 2);
+				else if (signal == SIGINT)
+					ft_putstr_fd("\n", 2);
+			}
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 22:18:11 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 16:34:06 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:07:54 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_redirect(t_cmd *cmd, t_token **token, int *j, int *i)
 {
 	cmd->redirect[*j] = ft_strdup((*token)->value);
 	*token = (*token)->next;
-	if (redir_check(*token))
+	if (redir_check(*token, cmd->ctx))
 	{
 		free(cmd->redirect[*j]);
 		cmd->redirect[*j] = NULL;
@@ -59,13 +59,14 @@ int	fill_cmd_parts(t_cmd *cmd, t_token *token, int *i, int *j)
 	return (1);
 }
 
-t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token)
+t_cmd	*populate_cmd_data(t_cmd *cmd, t_token *token, t_ctx *ctx)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
+	cmd->ctx = ctx;
 	cmd->quoted_file = malloc(sizeof(int) * (redir_counter(token, PIPE) + 1));
 	if (!fill_cmd_parts(cmd, token, &i, &j))
 		return (NULL);

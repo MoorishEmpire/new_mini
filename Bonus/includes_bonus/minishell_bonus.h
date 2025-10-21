@@ -6,12 +6,12 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 22:15:33 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/20 23:15:35 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:04:48 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELLA_BONUS_H
-# define MINISHELLA_BONUS_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 # include "../src/Parsing_bonus/utils_bonus/libft/libft.h"
 # include "builtins_bonus.h"
@@ -35,7 +35,6 @@
 # define RESET "\033[0m"
 
 extern volatile sig_atomic_t	g_signal_received;
-
 # define SUCCESS 0
 # define FAILURE 1
 # define CMD_NOT_FOUND 127
@@ -50,16 +49,13 @@ extern volatile sig_atomic_t	g_signal_received;
 #  define BUFFER_SIZE 42
 # endif
 
+extern volatile sig_atomic_t	g_signal_received;
 int								is_space_unquoted(char *str, int index);
-
 void							free_split(char **strs);
 int								red_flag(t_token *token);
 void							free_token_list(t_token *token);
 int								token_has_quotes(t_token *token);
 void							clear_cmd(t_cmd **head);
-// int check_quotes(char *str);
-// void err_handle(t_token *xpnd, char **envp); tf were you thinking!
-
 void							print_system_error(char *context);
 void							print_command_error(char *cmd, char *error_msg);
 void							print_syntax_error(char *token);
@@ -68,57 +64,46 @@ void							print_ambiguous_redirect(char *var_name);
 void							print_cmd_not_found(char *cmd);
 t_token							*expanding_it(t_token *token, char **env,
 									t_ctx *ctx);
-
 void							append_list(t_token **head, t_token *new_node);
-
 char							*strip_token(char *value);
-
-int								pipe_err(t_token **list);
+int								pipe_err(t_token **list, t_ctx *ctx);
 int								is_token_redirect(t_token *R);
 int								is_it_doubled(t_token *dollar);
 t_token							*stripper(t_token *xpnd);
-
-t_token							*create_token(NodeType type, char *value,
+t_token							*create_token(t_nodetype type, char *value,
 									char *var_nam);
 void							clear_tokens(t_token **head);
 void							print_tokens(t_token *tokens);
 t_token							*tokenizer(t_token **head, t_token **tail,
 									char *input);
-t_cmd							*store_cmds(t_token *token);
+t_cmd							*store_cmds(t_token *token, t_ctx *ctx);
 t_token							*expand_variables(t_token *tokens, char **envp,
 									t_ctx *ctx);
-t_cmd							*populate_cmd_data(t_cmd *cmd, t_token *token);
-t_cmd							*build_cmd_list(t_token *token);
-
+t_cmd							*populate_cmd_data(t_cmd *cmd, t_token *token,
+									t_ctx *ctx);
+t_cmd							*build_cmd_list(t_token *token, t_ctx *ctx);
 int								is_it_singled(t_token *dollar);
-
-// void add_arg(t_trs *node, char *value);
-// int is_operator(t_token *node);
-// t_trs *create_node(char *value);
-// char    *ft_strndup(const char *str, size_t n);
-
+void							exec_builtin_cmd(t_cmd *cmd, t_env **env_list,
+									char **env_array, int saved_io[2]);
+int								handle_redirect_only(t_cmd *cmd,
+									char **env_array);
 void							is_it_and(t_token **head, t_token **tail,
 									int *i, char *input);
 void							is_it_pipe(t_token **head, t_token **tail,
 									int *i, char *input);
 void							is_it_op(t_token **head, t_token **tail, int *i,
 									char *input);
-void							is_it_quote(t_token **head, t_token **tail,
-									int *i, char *input, char c);
 void							is_it_word(t_token **head, t_token **tail,
 									int *i, char *input);
 int								make_full_token(char *input, int len, int start,
 									t_token **new);
 void							get_full_quote(char *input, t_quote_ctx *ctx);
-// void is_it_and(t_token **head, t_token **tail, int *i, char *input);
-
 int								is_token_cmd(t_token *T);
 int								is_token_redirect(t_token *R);
 int								is_it_opp(t_token *op);
 int								is_token_breaker(char c);
 int								is_empty_string(t_token *token);
-int								redir_check(t_token *token);
-
+int								redir_check(t_token *token, t_ctx *ctx);
 char							*replace_in_quotes(char *str, char **env,
 									t_ctx *ctx);
 char							*strip_str(char *str);
@@ -147,9 +132,7 @@ int								replace_variable(char *str, t_ctx *ctx,
 									char *result, char **env);
 int								copy_token(t_token *xpnd, t_token **result);
 int								redir_counter(t_token *token,
-									NodeType stop_type);
-
-// wild card -> bonus
+									t_nodetype stop_type);
 t_token							*handel_wild_card(t_token *xpnd);
 t_token							*make_list(t_token **result, int type,
 									char *value, char *var_nam);
@@ -176,9 +159,7 @@ int								process_wildcard_token(t_token *token,
 									t_token **result);
 int								process_regular_token(t_token *token,
 									t_token **result);
-char							**expand_wildcard(char *token, NodeType type);
-
-// Builtins
+char							**expand_wildcard(char *token, t_nodetype type);
 int								execute_builtin(t_cmd *cmd, t_env **env);
 char							*get_cmd_path(char *cmd, t_env *env);
 char							**list_to_env(t_env *list);
@@ -192,8 +173,6 @@ void							lstenv_add_back(t_env **env, t_env *new_node);
 void							sort_env_list(t_env **env);
 t_env							*env_to_list(char **env);
 char							**list_to_env(t_env *list);
-
-// Externals
 void							execute_externals(t_cmd *cmd, t_env **env);
 void							command_not_found(t_cmd *cmd);
 int								validate_absolute_path(t_cmd *cmd);
@@ -206,8 +185,6 @@ int								check_if_directory(const char *path,
 									t_cmd *cmd);
 int								check_permission(const char *path, t_cmd *cmd);
 int								check_file_not_exist(t_cmd *cmd);
-
-// redirections for execution
 int								handle_out(char *file, int tr_ap, t_cmd *cmd);
 int								has_quotes(char *str);
 int								handle_in(char *file, t_cmd *cmd);
@@ -215,14 +192,11 @@ char							*get_next_line(int fd);
 int								handle_heredoc(char *delimiter, char **env,
 									t_cmd *cmd, int i);
 int								apply_redirections(t_cmd *cmd, char **env);
-int	prepare_heredocs(t_cmd *cmd, char **env);
-
-// the main
+int								prepare_heredocs(t_cmd *cmd, char **env);
 char							*get_input(void);
 void							init_context(t_ctx *ctx);
-void							free_token_lists(t_token **output,
-									t_token **expand, t_token **wild,
-									t_token **strip);
+void							free_token_lists(t_token **o, t_token **x,
+									t_token **w, t_token **s);
 t_cmd							*process_line(char *input, char **env,
 									t_ctx *ctx);
 int								check_unclosed_quotes(const char *line);
@@ -233,8 +207,6 @@ void							restore_stdio(int saved_stdin,
 void							execute_single_cmd(t_cmd *cmd, t_env **env_list,
 									char **env_array);
 int								is_builtin(char *cmd);
-
-// Signals
 void							signal_check(t_cmd *cmd);
 void							signal_init_interactive(void);
 void							signal_init_exec(void);
@@ -246,8 +218,6 @@ void							signal_handler_interactive(int signal);
 void							signal_handler_heredoc(int signal);
 int								is_signal_received(void);
 void							reset_signal_received(void);
-
-// Pipes
 void							execute_pipeline(t_cmd *cmd, t_env **env_list,
 									char **env_array);
 void							exec_builtin_in_pipe(t_cmd *cmd,
@@ -265,8 +235,6 @@ void							setup_pipe_redirections(int **pipes, int idx,
 									int total, int has_output_redir);
 void							close_parent_pipes(int **pipes, int idx,
 									int total);
-
-// main tester (to be removed)
 void							print_parse(t_cmd *cmd);
 void							print_tokens(t_token *tokens);
 

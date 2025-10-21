@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   externals_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 20:32:39 by moel-idr          #+#    #+#             */
+/*   Updated: 2025/10/21 20:32:40 by moel-idr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes_bonus/minishell_bonus.h"
 
 static void	handle_child(t_cmd *cmd, char *path, char **envp)
 {
 	signal_init_child();
-	if (prepare_heredocs(cmd, envp) == -1 | apply_redirections(cmd, envp) == -1)
+	if (apply_redirections(cmd, envp) == -1)
 	{
 		cleanup_resources(path, envp);
 		exit(1);

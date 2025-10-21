@@ -6,13 +6,13 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:43:08 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 17:04:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:59:57 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	is_operator(NodeType type)
+static int	is_operator(t_nodetype type)
 {
 	return (type == PIPE || type == AND || type == OR);
 }
