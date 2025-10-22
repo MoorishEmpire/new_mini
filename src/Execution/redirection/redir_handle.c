@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:13:58 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/21 17:55:50 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/22 02:46:37 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	prepare_heredocs(t_cmd *cmd, char **env)
 		i++;
 	}
 	cmd->here_fd = fd;
-	close(fd);
+	// close(fd);
 	return (0);
 }
 
